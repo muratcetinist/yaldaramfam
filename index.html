@@ -7,265 +7,285 @@
 <link rel="icon" type="image/svg+xml" href="favicon.svg">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400&family=Playfair+Display:ital,wght@0,400;0,500;0,600;0,700;0,800;0,900;1,400;1,500;1,600&family=Lato:wght@300;400;700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Cinzel+Decorative:wght@400;700;900&family=Cinzel:wght@400;500;600;700;800;900&family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;0,700;1,300;1,400;1,500&family=Spectral:ital,wght@0,300;0,400;1,300;1,400&display=swap" rel="stylesheet">
 <style>
-/* ══════════════════════════════════════════
-   CSS CUSTOM PROPERTIES
-   ══════════════════════════════════════════ */
+/* ═══════ CUSTOM PROPERTIES ═══════ */
 :root {
-  --midnight: #0d0d1a;
-  --deep-navy: #1a1a2e;
-  --navy: #16213e;
-  --royal-blue: #0f3460;
-  --gold: #d4af37;
-  --gold-light: #f0c75e;
-  --gold-pale: #f5deb3;
-  --gold-dark: #b8960c;
-  --ivory: #faf3e0;
-  --ivory-dim: #c9b99a;
-  --crimson: #8b1a1a;
-  --white: #ffffff;
-  --white-10: rgba(255,255,255,0.1);
-  --white-05: rgba(255,255,255,0.05);
-  --white-50: rgba(255,255,255,0.5);
-  --gold-glow: rgba(212,175,55,0.3);
-  --gold-glow-strong: rgba(212,175,55,0.6);
-  --section-padding: clamp(80px, 10vw, 140px);
-  --container-width: min(1200px, 90vw);
-  --font-display: 'Playfair Display', 'Georgia', serif;
-  --font-heading: 'Cormorant Garamond', 'Georgia', serif;
-  --font-body: 'Lato', 'Helvetica Neue', sans-serif;
-  --transition: 0.4s cubic-bezier(0.25, 0.46, 0.45, 0.94);
+  --bg-deepest: #060610;
+  --bg-deep: #0a0a18;
+  --bg-dark: #0f0f22;
+  --bg-card: #12122a;
+  --bg-card-hover: #1a1a38;
+  --gold: #c9a84c;
+  --gold-bright: #e8d48b;
+  --gold-pale: #f0e4c4;
+  --gold-dark: #8b7530;
+  --gold-glow: rgba(201,168,76,0.35);
+  --blue-deep: #0c1a3a;
+  --blue-royal: #162454;
+  --crimson: #6b1520;
+  --ivory: #e8dcc8;
+  --ivory-dim: #a89e8a;
+  --ivory-muted: #6b6355;
+  --font-display: 'Cinzel Decorative', 'Georgia', serif;
+  --font-heading: 'Cinzel', 'Georgia', serif;
+  --font-body: 'Cormorant Garamond', 'Georgia', serif;
+  --font-accent: 'Spectral', 'Georgia', serif;
+  --ease-out-expo: cubic-bezier(0.16, 1, 0.3, 1);
+  --ease-out-quint: cubic-bezier(0.22, 1, 0.36, 1);
 }
 
-/* ══════════════════════════════════════════
-   RESET & BASE
-   ══════════════════════════════════════════ */
+/* ═══════ RESET ═══════ */
 *, *::before, *::after { margin: 0; padding: 0; box-sizing: border-box; }
-html { scroll-behavior: smooth; scrollbar-color: var(--gold-dark) var(--midnight); }
+html { scrollbar-color: var(--gold-dark) var(--bg-deepest); }
+html.lenis, html.lenis body { height: auto; }
+.lenis.lenis-smooth { scroll-behavior: auto !important; }
 body {
   font-family: var(--font-body);
-  background: var(--midnight);
+  background: var(--bg-deepest);
   color: var(--ivory);
   line-height: 1.7;
-  font-weight: 300;
+  font-weight: 400;
   overflow-x: hidden;
   -webkit-font-smoothing: antialiased;
 }
-::selection { background: var(--gold); color: var(--midnight); }
-::-webkit-scrollbar { width: 8px; }
-::-webkit-scrollbar-track { background: var(--midnight); }
-::-webkit-scrollbar-thumb { background: var(--gold-dark); border-radius: 4px; }
+::selection { background: var(--gold); color: var(--bg-deepest); }
+::-webkit-scrollbar { width: 6px; }
+::-webkit-scrollbar-track { background: var(--bg-deepest); }
+::-webkit-scrollbar-thumb { background: var(--gold-dark); border-radius: 3px; }
 img { max-width: 100%; display: block; }
-a { color: var(--gold); text-decoration: none; transition: color var(--transition); }
-a:hover { color: var(--gold-light); }
+a { color: var(--gold); text-decoration: none; }
 
-/* ══════════════════════════════════════════
-   BACKGROUND TEXTURE
-   ══════════════════════════════════════════ */
-body::before {
-  content: '';
+/* cursor:none only when custom cursor is confirmed working */
+body.custom-cursor, body.custom-cursor a, body.custom-cursor button,
+body.custom-cursor input, body.custom-cursor textarea { cursor: none; }
+
+/* ═══════ CUSTOM CURSOR ═══════ */
+.cursor-dot {
+  position: fixed;
+  top: 0; left: 0;
+  width: 6px; height: 6px;
+  background: var(--gold);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: width 0.3s, height 0.3s, background 0.3s;
+}
+.cursor-ring {
+  position: fixed;
+  top: 0; left: 0;
+  width: 40px; height: 40px;
+  border: 1px solid rgba(201,168,76,0.4);
+  border-radius: 50%;
+  pointer-events: none;
+  z-index: 9998;
+  transform: translate(-50%, -50%);
+  transition: width 0.4s var(--ease-out-expo), height 0.4s var(--ease-out-expo), border-color 0.3s, background 0.3s;
+}
+body.cursor-hover .cursor-dot { width: 0; height: 0; }
+body.cursor-hover .cursor-ring {
+  width: 64px; height: 64px;
+  background: rgba(201,168,76,0.08);
+  border-color: var(--gold);
+}
+
+/* ═══════ PRELOADER ═══════ */
+.preloader {
   position: fixed;
   inset: 0;
-  background:
-    radial-gradient(ellipse at 20% 50%, rgba(15,52,96,0.15) 0%, transparent 60%),
-    radial-gradient(ellipse at 80% 20%, rgba(15,52,96,0.1) 0%, transparent 50%),
-    radial-gradient(ellipse at 50% 100%, rgba(212,175,55,0.03) 0%, transparent 40%);
-  pointer-events: none;
-  z-index: 0;
-}
-body::after {
-  content: '';
-  position: fixed;
-  inset: 0;
-  opacity: 0.035;
-  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E");
-  background-size: 256px 256px;
-  pointer-events: none;
-  z-index: 0;
-}
-
-/* ══════════════════════════════════════════
-   ORNAMENTAL FLOURISH DIVIDER
-   ══════════════════════════════════════════ */
-.flourish {
+  z-index: 10000;
+  background: var(--bg-deepest);
   display: flex;
+  flex-direction: column;
   align-items: center;
   justify-content: center;
-  gap: 16px;
-  padding: 40px 0;
-  opacity: 0.7;
+  transition: opacity 0.8s ease, visibility 0.8s ease;
 }
-.flourish::before, .flourish::after {
-  content: '';
-  flex: 1;
-  max-width: 200px;
-  height: 1px;
-  background: linear-gradient(90deg, transparent, var(--gold), transparent);
+.preloader.done { opacity: 0; visibility: hidden; pointer-events: none; }
+/* CSS-only fallback: hide preloader after 4s even if JS fails */
+.preloader { animation: preloader-failsafe 0.8s ease 4s forwards; }
+.preloader.done { animation: none; }
+@keyframes preloader-failsafe { to { opacity: 0; visibility: hidden; pointer-events: none; } }
+.preloader-shield {
+  width: 80px; height: 100px;
+  margin-bottom: 30px;
 }
-.flourish-diamond {
-  width: 10px;
-  height: 10px;
-  background: var(--gold);
-  transform: rotate(45deg);
-  flex-shrink: 0;
+.preloader-shield path {
+  fill: none;
+  stroke: var(--gold);
+  stroke-width: 2;
+  stroke-dasharray: 300;
+  stroke-dashoffset: 300;
+  animation: drawShield 1.6s ease forwards;
 }
-.flourish-ornament {
-  color: var(--gold);
-  font-size: 24px;
+.preloader-shield .shield-sun {
+  stroke-dasharray: 80;
+  stroke-dashoffset: 80;
+  animation: drawShield 1s ease 0.8s forwards;
+}
+@keyframes drawShield {
+  to { stroke-dashoffset: 0; }
+}
+.preloader-text {
   font-family: var(--font-display);
-  line-height: 1;
-  flex-shrink: 0;
+  font-size: 1.6rem;
+  color: var(--gold);
+  letter-spacing: 12px;
+  overflow: hidden;
+}
+.preloader-text span {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(100%);
+  animation: preloaderChar 0.5s var(--ease-out-expo) forwards;
+}
+.preloader-bar {
+  width: 120px;
+  height: 1px;
+  background: rgba(201,168,76,0.15);
+  margin-top: 24px;
+  position: relative;
+  overflow: hidden;
+}
+.preloader-bar::after {
+  content: '';
+  position: absolute;
+  left: 0; top: 0; bottom: 0;
+  width: 0;
+  background: var(--gold);
+  animation: preloaderBar 2s ease forwards;
+}
+@keyframes preloaderBar { to { width: 100%; } }
+@keyframes preloaderChar {
+  to { opacity: 1; transform: translateY(0); }
 }
 
-/* ══════════════════════════════════════════
-   SCROLL ANIMATIONS
-   ══════════════════════════════════════════ */
-.reveal {
-  opacity: 0;
-  transform: translateY(40px);
-  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
+/* ═══════ GRAIN OVERLAY ═══════ */
+.grain {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 100;
+  opacity: 0.04;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E");
+  background-size: 256px;
 }
-.reveal.visible { opacity: 1; transform: translateY(0); }
-.reveal-left {
-  opacity: 0;
-  transform: translateX(-40px);
-  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.reveal-left.visible { opacity: 1; transform: translateX(0); }
-.reveal-right {
-  opacity: 0;
-  transform: translateX(40px);
-  transition: opacity 0.8s cubic-bezier(0.16, 1, 0.3, 1), transform 0.8s cubic-bezier(0.16, 1, 0.3, 1);
-}
-.reveal-right.visible { opacity: 1; transform: translateX(0); }
-.stagger > * { transition-delay: calc(var(--i, 0) * 0.1s); }
 
-/* ══════════════════════════════════════════
-   NAVIGATION
-   ══════════════════════════════════════════ */
+/* ═══════ CANVAS PARTICLES ═══════ */
+#particleCanvas {
+  position: fixed;
+  inset: 0;
+  pointer-events: none;
+  z-index: 1;
+}
+
+/* ═══════ NAVIGATION ═══════ */
 .nav {
   position: fixed;
-  top: 0;
-  left: 0;
-  right: 0;
+  top: 0; left: 0; right: 0;
   z-index: 1000;
-  padding: 20px 40px;
+  padding: 24px 48px;
   display: flex;
   align-items: center;
   justify-content: space-between;
-  transition: all 0.5s ease;
-  background: transparent;
+  transition: all 0.6s var(--ease-out-expo);
+  mix-blend-mode: difference;
 }
 .nav.scrolled {
-  background: rgba(13,13,26,0.95);
-  backdrop-filter: blur(20px);
-  -webkit-backdrop-filter: blur(20px);
-  padding: 12px 40px;
-  box-shadow: 0 2px 40px rgba(0,0,0,0.4), 0 1px 0 rgba(212,175,55,0.1);
+  mix-blend-mode: normal;
+  background: rgba(6,6,16,0.9);
+  backdrop-filter: blur(24px) saturate(1.4);
+  -webkit-backdrop-filter: blur(24px) saturate(1.4);
+  padding: 14px 48px;
+  border-bottom: 1px solid rgba(201,168,76,0.06);
 }
 .nav-brand {
   font-family: var(--font-display);
-  font-size: 1.4rem;
-  font-weight: 600;
-  color: var(--gold);
-  letter-spacing: 3px;
+  font-size: 1.1rem;
+  font-weight: 400;
+  color: var(--ivory);
+  letter-spacing: 6px;
   text-transform: uppercase;
-}
-.nav-center {
-  display: flex;
-  align-items: center;
-  gap: 20px;
 }
 .nav-links {
   display: flex;
   list-style: none;
-  gap: 36px;
+  gap: 40px;
 }
 .nav-links a {
   font-family: var(--font-heading);
-  font-size: 1.05rem;
-  font-weight: 400;
-  color: var(--ivory-dim);
-  letter-spacing: 1.5px;
+  font-size: 0.8rem;
+  font-weight: 500;
+  color: var(--ivory);
+  letter-spacing: 3px;
   text-transform: uppercase;
   position: relative;
-  padding-bottom: 4px;
+  overflow: hidden;
+  display: inline-block;
+  padding: 4px 0;
 }
 .nav-links a::after {
   content: '';
   position: absolute;
-  bottom: 0;
-  left: 0;
-  width: 0;
-  height: 1px;
+  bottom: 0; left: 0;
+  width: 100%; height: 1px;
   background: var(--gold);
-  transition: width var(--transition);
+  transform: translateX(-101%);
+  transition: transform 0.5s var(--ease-out-expo);
 }
-.nav-links a:hover, .nav-links a.active { color: var(--gold); }
-.nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
-
-/* language switcher */
-.lang-switcher {
+.nav-links a:hover::after,
+.nav-links a.active::after { transform: translateX(0); }
+.nav-links a:hover, .nav-links a.active { color: var(--gold-bright); }
+.nav-right {
   display: flex;
   align-items: center;
-  gap: 4px;
-  border: 1px solid rgba(212,175,55,0.2);
-  border-radius: 3px;
-  padding: 3px;
-  flex-shrink: 0;
+  gap: 20px;
+}
+.lang-switcher {
+  display: flex;
+  gap: 2px;
+  border: 1px solid rgba(201,168,76,0.15);
+  border-radius: 2px;
+  padding: 2px;
 }
 .lang-btn {
   background: none;
   border: none;
   color: var(--ivory-dim);
   font-family: var(--font-heading);
-  font-size: 0.8rem;
-  font-weight: 500;
-  letter-spacing: 1px;
+  font-size: 0.65rem;
+  font-weight: 600;
+  letter-spacing: 2px;
   text-transform: uppercase;
-  padding: 5px 10px;
-  cursor: pointer;
-  transition: all var(--transition);
-  border-radius: 2px;
+  padding: 6px 10px;
+  transition: all 0.3s;
+  border-radius: 1px;
 }
 .lang-btn:hover { color: var(--gold); }
-.lang-btn.active {
-  background: var(--gold);
-  color: var(--midnight);
-}
-
-/* hamburger */
+.lang-btn.active { background: var(--gold); color: var(--bg-deepest); }
 .nav-toggle {
   display: none;
   flex-direction: column;
-  gap: 5px;
-  cursor: pointer;
+  gap: 6px;
   padding: 8px;
   background: none;
   border: none;
+  z-index: 1001;
 }
 .nav-toggle span {
   display: block;
-  width: 26px;
-  height: 2px;
-  background: var(--gold);
-  transition: all 0.3s ease;
+  width: 28px;
+  height: 1.5px;
+  background: var(--ivory);
+  transition: all 0.4s var(--ease-out-expo);
   transform-origin: center;
 }
-.nav-toggle.open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
-.nav-toggle.open span:nth-child(2) { opacity: 0; }
-.nav-toggle.open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+.nav-toggle.open span:nth-child(1) { transform: translateY(7.5px) rotate(45deg); }
+.nav-toggle.open span:nth-child(2) { opacity: 0; transform: scaleX(0); }
+.nav-toggle.open span:nth-child(3) { transform: translateY(-7.5px) rotate(-45deg); }
 
-.nav-right {
-  display: flex;
-  align-items: center;
-  gap: 16px;
-}
-
-/* ══════════════════════════════════════════
-   HERO SECTION
-   ══════════════════════════════════════════ */
+/* ═══════ HERO ═══════ */
 .hero {
   position: relative;
   min-height: 100vh;
@@ -274,225 +294,220 @@ body::after {
   align-items: center;
   justify-content: center;
   text-align: center;
-  padding: 120px 20px 80px;
+  padding: 120px 24px 80px;
+  z-index: 2;
   overflow: hidden;
 }
-.hero::before {
-  content: '';
+.hero-bg-gradient {
   position: absolute;
   inset: 0;
   background:
-    radial-gradient(ellipse at 50% 40%, rgba(212,175,55,0.06) 0%, transparent 60%),
-    radial-gradient(ellipse at 50% 70%, rgba(15,52,96,0.2) 0%, transparent 50%);
+    radial-gradient(ellipse 60% 50% at 50% 45%, rgba(201,168,76,0.06) 0%, transparent 70%),
+    radial-gradient(ellipse 80% 60% at 50% 80%, rgba(12,26,58,0.3) 0%, transparent 60%);
   pointer-events: none;
 }
-.coa-container {
+.coa-wrap {
   position: relative;
-  margin-bottom: 40px;
-  z-index: 1;
-}
-.coa-glow {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 420px;
-  height: 420px;
-  border-radius: 50%;
-  background: radial-gradient(circle, rgba(212,175,55,0.15) 0%, rgba(212,175,55,0.05) 40%, transparent 70%);
-  animation: coa-pulse 4s ease-in-out infinite;
-  pointer-events: none;
-}
-@keyframes coa-pulse {
-  0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
-  50% { transform: translate(-50%, -50%) scale(1.1); opacity: 0.7; }
-}
-.coa-glow-ring {
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
-  width: 340px;
-  height: 340px;
-  border-radius: 50%;
-  border: 1px solid rgba(212,175,55,0.1);
-  animation: coa-ring 6s ease-in-out infinite;
-  pointer-events: none;
-}
-@keyframes coa-ring {
-  0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 0.5; }
-  50% { transform: translate(-50%, -50%) scale(1.15); opacity: 0; }
+  margin-bottom: 48px;
 }
 .coa-img {
-  width: 280px;
+  width: 260px;
   height: auto;
-  filter: drop-shadow(0 0 60px rgba(212,175,55,0.2)) drop-shadow(0 20px 40px rgba(0,0,0,0.5));
   position: relative;
-  z-index: 1;
-  animation: coa-float 6s ease-in-out infinite;
+  z-index: 2;
+  filter: drop-shadow(0 0 80px rgba(201,168,76,0.15)) drop-shadow(0 30px 60px rgba(0,0,0,0.6));
+  will-change: transform;
 }
-@keyframes coa-float {
-  0%, 100% { transform: translateY(0); }
-  50% { transform: translateY(-10px); }
+.coa-halo {
+  position: absolute;
+  top: 50%; left: 50%;
+  width: 500px; height: 500px;
+  transform: translate(-50%, -50%);
+  background: radial-gradient(circle, rgba(201,168,76,0.08) 0%, rgba(201,168,76,0.02) 40%, transparent 70%);
+  pointer-events: none;
+  animation: halo-breathe 5s ease-in-out infinite;
+}
+@keyframes halo-breathe {
+  0%, 100% { transform: translate(-50%, -50%) scale(1); opacity: 1; }
+  50% { transform: translate(-50%, -50%) scale(1.08); opacity: 0.6; }
 }
 .hero-title {
   font-family: var(--font-display);
-  font-size: clamp(3rem, 7vw, 6rem);
-  font-weight: 700;
+  font-size: clamp(2.8rem, 8vw, 7rem);
+  font-weight: 900;
   color: var(--gold);
-  letter-spacing: 12px;
+  letter-spacing: 0.15em;
   text-transform: uppercase;
-  line-height: 1.1;
-  margin-bottom: 8px;
+  line-height: 1;
+  margin-bottom: 16px;
   position: relative;
-  z-index: 1;
-  text-shadow: 0 0 80px rgba(212,175,55,0.2);
+  z-index: 2;
+  overflow: hidden;
+}
+.hero-title .char {
+  display: inline-block;
+  opacity: 0;
+  transform: translateY(120%);
+}
+.hero-line {
+  display: block;
+  width: 60px;
+  height: 1px;
+  background: var(--gold);
+  margin: 0 auto 20px;
+  transform: scaleX(0);
+  transform-origin: center;
+  z-index: 2;
+  position: relative;
 }
 .hero-subtitle {
   font-family: var(--font-heading);
-  font-size: clamp(1rem, 2vw, 1.3rem);
-  font-weight: 300;
+  font-size: clamp(0.75rem, 1.5vw, 1rem);
+  font-weight: 500;
   color: var(--ivory-dim);
-  letter-spacing: 8px;
+  letter-spacing: 0.4em;
   text-transform: uppercase;
-  margin-bottom: 12px;
+  margin-bottom: 10px;
   position: relative;
-  z-index: 1;
+  z-index: 2;
+  opacity: 0;
 }
 .hero-tagline {
-  font-family: var(--font-heading);
-  font-size: 1.1rem;
+  font-family: var(--font-accent);
+  font-size: clamp(0.9rem, 1.5vw, 1.15rem);
   font-weight: 300;
   font-style: italic;
-  color: var(--gold-light);
-  letter-spacing: 4px;
+  color: var(--gold-bright);
+  letter-spacing: 0.15em;
   position: relative;
-  z-index: 1;
-  opacity: 0.8;
+  z-index: 2;
+  opacity: 0;
 }
 .hero-origin {
   font-family: var(--font-heading);
-  font-size: 0.9rem;
-  font-weight: 400;
-  color: var(--ivory-dim);
-  letter-spacing: 5px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  color: var(--ivory-muted);
+  letter-spacing: 0.5em;
   text-transform: uppercase;
-  margin-top: 20px;
+  margin-top: 28px;
   position: relative;
-  z-index: 1;
-  opacity: 0.6;
+  z-index: 2;
+  opacity: 0;
 }
-.scroll-indicator {
+.scroll-cue {
   position: absolute;
   bottom: 40px;
   left: 50%;
   transform: translateX(-50%);
+  z-index: 2;
   display: flex;
   flex-direction: column;
   align-items: center;
   gap: 8px;
-  cursor: pointer;
-  z-index: 1;
-  animation: scroll-bounce 2s ease-in-out infinite;
+  opacity: 0;
 }
-.scroll-indicator span {
+.scroll-cue span {
   font-family: var(--font-heading);
-  font-size: 0.75rem;
-  letter-spacing: 3px;
+  font-size: 0.6rem;
+  letter-spacing: 0.4em;
   text-transform: uppercase;
-  color: var(--ivory-dim);
-  opacity: 0.5;
+  color: var(--ivory-muted);
 }
-.scroll-arrow {
-  width: 20px;
-  height: 20px;
-  border-right: 1px solid var(--gold);
-  border-bottom: 1px solid var(--gold);
-  transform: rotate(45deg);
-  opacity: 0.5;
+.scroll-cue-line {
+  width: 1px;
+  height: 40px;
+  background: linear-gradient(to bottom, var(--gold), transparent);
+  animation: scrollPulse 2s ease-in-out infinite;
 }
-@keyframes scroll-bounce {
-  0%, 100% { transform: translateX(-50%) translateY(0); }
-  50% { transform: translateX(-50%) translateY(10px); }
+@keyframes scrollPulse {
+  0%, 100% { transform: scaleY(1); opacity: 0.6; }
+  50% { transform: scaleY(0.5); opacity: 0.2; }
 }
 
-/* ══════════════════════════════════════════
-   SECTION COMMON
-   ══════════════════════════════════════════ */
-section {
-  position: relative;
-  z-index: 1;
-  padding: var(--section-padding) 20px;
-}
-.container {
-  width: var(--container-width);
-  margin: 0 auto;
-}
-.section-header {
-  text-align: center;
-  margin-bottom: 60px;
-}
-.section-label {
+/* ═══════ SECTIONS COMMON ═══════ */
+section { position: relative; z-index: 2; }
+.container { width: min(1200px, 88vw); margin: 0 auto; }
+.section-pad { padding: clamp(80px,12vw,160px) 24px; }
+.sec-label {
   font-family: var(--font-heading);
-  font-size: 0.85rem;
-  font-weight: 400;
-  letter-spacing: 6px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.5em;
   text-transform: uppercase;
   color: var(--gold);
   display: block;
-  margin-bottom: 12px;
-}
-.section-title {
-  font-family: var(--font-display);
-  font-size: clamp(2rem, 4vw, 3.2rem);
-  font-weight: 600;
-  color: var(--ivory);
-  line-height: 1.2;
   margin-bottom: 16px;
 }
-.section-subtitle {
+.sec-title {
   font-family: var(--font-heading);
-  font-size: 1.15rem;
+  font-size: clamp(1.8rem, 4vw, 3.2rem);
+  font-weight: 700;
+  color: var(--ivory);
+  line-height: 1.15;
+  margin-bottom: 20px;
+}
+.sec-sub {
+  font-family: var(--font-accent);
+  font-size: 1.1rem;
   font-weight: 300;
   font-style: italic;
   color: var(--ivory-dim);
-  max-width: 600px;
-  margin: 0 auto;
-  line-height: 1.8;
+  max-width: 560px;
+  line-height: 1.9;
+}
+.divider {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  padding: 20px 0;
+  position: relative;
+  z-index: 2;
+}
+.divider::before, .divider::after {
+  content: '';
+  flex: 1;
+  max-width: 180px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, rgba(201,168,76,0.25), transparent);
+}
+.divider-gem {
+  width: 6px; height: 6px;
+  background: var(--gold);
+  transform: rotate(45deg);
+  opacity: 0.5;
 }
 
-/* ══════════════════════════════════════════
-   ABOUT / HISTORY
-   ══════════════════════════════════════════ */
-.about {
-  background: linear-gradient(180deg, transparent 0%, rgba(22,33,62,0.2) 50%, transparent 100%);
-}
-.about-grid {
+/* ═══════ ABOUT ═══════ */
+.about { background: linear-gradient(180deg, transparent, rgba(15,15,34,0.4), transparent); }
+.about-layout {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 60px;
+  gap: 80px;
   align-items: center;
 }
 .about-text h3 {
-  font-family: var(--font-display);
-  font-size: 1.6rem;
-  font-weight: 500;
+  font-family: var(--font-heading);
+  font-size: 1.4rem;
+  font-weight: 600;
   color: var(--gold);
-  margin-bottom: 20px;
+  margin-bottom: 24px;
+  letter-spacing: 0.05em;
 }
 .about-text p {
   font-size: 1.05rem;
-  line-height: 1.9;
+  line-height: 2;
   color: var(--ivory-dim);
   margin-bottom: 20px;
 }
 .about-text p:first-of-type::first-letter {
   font-family: var(--font-display);
-  font-size: 3.5rem;
+  font-size: 3.8rem;
   float: left;
-  line-height: 1;
-  margin-right: 10px;
-  margin-top: 4px;
+  line-height: 0.8;
+  margin-right: 12px;
+  margin-top: 8px;
   color: var(--gold);
   font-weight: 700;
 }
@@ -503,528 +518,446 @@ section {
   justify-content: center;
 }
 .about-crest {
-  width: 70%;
-  max-width: 320px;
-  filter: drop-shadow(0 0 40px rgba(212,175,55,0.15));
-  opacity: 0.9;
+  width: 65%;
+  max-width: 300px;
+  filter: drop-shadow(0 0 50px rgba(201,168,76,0.1));
+  opacity: 0.85;
 }
 .about-frame {
   position: absolute;
-  inset: 20px;
-  border: 1px solid rgba(212,175,55,0.15);
-  border-radius: 4px;
+  inset: 30px;
+  border: 1px solid rgba(201,168,76,0.08);
   pointer-events: none;
 }
 
-/* origin banner */
-.origin-banner {
-  margin-top: 60px;
+/* ═══════ ORIGIN CARDS ═══════ */
+.origin-row {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 30px;
+  gap: 32px;
+  margin-top: 80px;
 }
 .origin-card {
-  background: linear-gradient(145deg, rgba(26,26,46,0.6), rgba(15,52,96,0.2));
-  border: 1px solid rgba(212,175,55,0.1);
-  border-radius: 4px;
-  padding: 36px 30px;
+  background: linear-gradient(160deg, rgba(18,18,42,0.9), rgba(12,26,58,0.3));
+  border: 1px solid rgba(201,168,76,0.06);
+  padding: 48px 36px;
   text-align: center;
   position: relative;
   overflow: hidden;
-  transition: all var(--transition);
+  transform-style: preserve-3d;
+  transition: border-color 0.5s, box-shadow 0.5s;
 }
 .origin-card:hover {
-  border-color: rgba(212,175,55,0.25);
-  box-shadow: 0 10px 40px rgba(0,0,0,0.2);
+  border-color: rgba(201,168,76,0.2);
+  box-shadow: 0 30px 80px -20px rgba(0,0,0,0.5), inset 0 1px 0 rgba(201,168,76,0.1);
 }
-.origin-card::after {
+.origin-card::before {
   content: '';
   position: absolute;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, var(--gold), transparent);
-  opacity: 0.3;
+  inset: 0;
+  background: radial-gradient(circle at var(--mx, 50%) var(--my, 50%), rgba(201,168,76,0.06) 0%, transparent 60%);
+  opacity: 0;
+  transition: opacity 0.4s;
+  pointer-events: none;
 }
+.origin-card:hover::before { opacity: 1; }
 .origin-icon {
-  font-size: 2.2rem;
-  margin-bottom: 12px;
+  font-size: 2rem;
+  margin-bottom: 16px;
   display: block;
+  filter: grayscale(0.3);
 }
 .origin-card h4 {
-  font-family: var(--font-display);
-  font-size: 1.4rem;
-  font-weight: 600;
+  font-family: var(--font-heading);
+  font-size: 1.3rem;
+  font-weight: 700;
   color: var(--gold);
-  margin-bottom: 8px;
-  letter-spacing: 2px;
+  letter-spacing: 0.1em;
+  margin-bottom: 12px;
 }
 .origin-card p {
   font-size: 0.95rem;
   color: var(--ivory-dim);
-  line-height: 1.8;
+  line-height: 1.9;
 }
 
-/* timeline */
-.timeline {
-  margin-top: 80px;
-  position: relative;
-  padding-left: 40px;
+/* ═══════ TIMELINE — HORIZONTAL SCROLL ═══════ */
+.timeline-section {
+  overflow: hidden;
 }
-.timeline::before {
+.timeline-track {
+  display: flex;
+  gap: 0;
+  width: max-content;
+  padding: 60px 0;
+}
+.timeline-card {
+  width: 420px;
+  flex-shrink: 0;
+  padding: 0 32px;
+  border-left: 1px solid rgba(201,168,76,0.1);
+  position: relative;
+}
+.timeline-card::before {
   content: '';
   position: absolute;
-  left: 0;
-  top: 0;
-  bottom: 0;
-  width: 1px;
-  background: linear-gradient(180deg, transparent, var(--gold), var(--gold), transparent);
-}
-.timeline-item {
-  position: relative;
-  padding-bottom: 40px;
-  padding-left: 30px;
-}
-.timeline-item::before {
-  content: '';
-  position: absolute;
-  left: -44px;
-  top: 6px;
-  width: 9px;
-  height: 9px;
+  top: -8px; left: -5px;
+  width: 8px; height: 8px;
   background: var(--gold);
   transform: rotate(45deg);
-  box-shadow: 0 0 12px rgba(212,175,55,0.4);
 }
-.timeline-year {
-  font-family: var(--font-display);
-  font-size: 0.9rem;
-  font-weight: 600;
+.timeline-card .tl-year {
+  font-family: var(--font-heading);
+  font-size: 0.75rem;
+  font-weight: 700;
   color: var(--gold);
-  letter-spacing: 3px;
-  margin-bottom: 6px;
+  letter-spacing: 0.3em;
+  text-transform: uppercase;
+  margin-bottom: 12px;
 }
-.timeline-text {
+.timeline-card .tl-text {
   font-size: 1rem;
   color: var(--ivory-dim);
-  line-height: 1.8;
+  line-height: 1.9;
 }
 
-/* ══════════════════════════════════════════
-   FAMILY MEMBERS
-   ══════════════════════════════════════════ */
-.family {
-  background: linear-gradient(180deg, transparent 0%, rgba(13,13,26,0.5) 50%, transparent 100%);
-}
-.family-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-  gap: 30px;
-}
-.family-card {
-  background: linear-gradient(145deg, rgba(26,26,46,0.8), rgba(22,33,62,0.4));
-  border: 1px solid rgba(212,175,55,0.1);
-  border-radius: 4px;
-  padding: 36px 28px;
+/* ═══════ FAMILY ═══════ */
+.family { background: linear-gradient(180deg, transparent, rgba(6,6,16,0.5), transparent); }
+.family-empty {
   text-align: center;
-  transition: all var(--transition);
-  position: relative;
-  overflow: hidden;
-}
-.family-card::before {
-  content: '';
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  height: 2px;
-  background: linear-gradient(90deg, transparent, var(--gold), transparent);
-  opacity: 0;
-  transition: opacity var(--transition);
-}
-.family-card:hover {
-  transform: translateY(-6px);
-  border-color: rgba(212,175,55,0.25);
-  box-shadow: 0 20px 60px rgba(0,0,0,0.3), 0 0 40px rgba(212,175,55,0.05);
-}
-.family-card:hover::before { opacity: 1; }
-.avatar {
-  width: 90px;
-  height: 90px;
-  border-radius: 50%;
-  margin: 0 auto 20px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  font-family: var(--font-display);
-  font-size: 1.8rem;
-  font-weight: 600;
-  color: var(--midnight);
-  position: relative;
-  overflow: hidden;
-}
-.avatar::before {
-  content: '';
-  position: absolute;
-  inset: 0;
-  border-radius: 50%;
-  border: 2px solid rgba(212,175,55,0.3);
-}
-.avatar-gold { background: linear-gradient(135deg, var(--gold), var(--gold-light)); }
-.avatar-blue { background: linear-gradient(135deg, var(--royal-blue), #1a5276); color: var(--gold); }
-.avatar-crimson { background: linear-gradient(135deg, var(--crimson), #a52a2a); color: var(--gold-pale); }
-.avatar-navy { background: linear-gradient(135deg, var(--navy), #1f3a5f); color: var(--gold); }
-.family-name {
-  font-family: var(--font-display);
-  font-size: 1.25rem;
-  font-weight: 600;
-  color: var(--ivory);
-  margin-bottom: 4px;
-}
-.family-role {
-  font-family: var(--font-heading);
-  font-size: 0.9rem;
-  font-weight: 400;
-  color: var(--gold);
-  letter-spacing: 2px;
-  text-transform: uppercase;
-  margin-bottom: 14px;
-}
-.family-bio {
-  font-size: 0.95rem;
-  color: var(--ivory-dim);
-  line-height: 1.7;
+  color: var(--ivory-muted);
+  font-family: var(--font-accent);
+  font-style: italic;
+  font-size: 1.1rem;
+  letter-spacing: 0.1em;
+  padding: 60px 0;
+  border: 1px dashed rgba(201,168,76,0.1);
 }
 
-/* ══════════════════════════════════════════
-   GALLERY
-   ══════════════════════════════════════════ */
-.gallery {
-  background: linear-gradient(180deg, transparent 0%, rgba(22,33,62,0.15) 50%, transparent 100%);
-}
-.gallery-grid {
-  display: grid;
-  grid-template-columns: repeat(4, 1fr);
-  grid-auto-rows: 200px;
-  gap: 16px;
+/* ═══════ GALLERY — HORIZONTAL SCROLL ═══════ */
+.gallery-section { overflow: hidden; }
+.gallery-track {
+  display: flex;
+  gap: 20px;
+  width: max-content;
+  padding: 40px 0;
 }
 .gallery-item {
   position: relative;
+  flex-shrink: 0;
   overflow: hidden;
-  border-radius: 4px;
   cursor: pointer;
-  border: 1px solid rgba(212,175,55,0.08);
-  transition: all var(--transition);
+  border: 1px solid rgba(201,168,76,0.05);
+  transition: border-color 0.4s;
 }
-.gallery-item:hover {
-  border-color: rgba(212,175,55,0.2);
-  transform: scale(1.02);
-  z-index: 2;
-}
-.gallery-item.tall { grid-row: span 2; }
-.gallery-item.wide { grid-column: span 2; }
-.gallery-placeholder {
-  width: 100%;
-  height: 100%;
+.gallery-item:hover { border-color: rgba(201,168,76,0.2); }
+.gallery-item.gi-tall { width: 280px; height: 420px; }
+.gallery-item.gi-wide { width: 500px; height: 340px; }
+.gallery-item.gi-sq { width: 340px; height: 340px; }
+.gallery-bg {
+  width: 100%; height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
   font-family: var(--font-heading);
-  font-size: 0.85rem;
-  letter-spacing: 2px;
+  font-size: 0.7rem;
+  letter-spacing: 0.3em;
   text-transform: uppercase;
-  color: rgba(255,255,255,0.3);
-  position: relative;
+  color: rgba(255,255,255,0.15);
+  transition: transform 0.8s var(--ease-out-expo);
 }
-.gp-1 { background: linear-gradient(135deg, #1a1a2e, #0f3460); }
-.gp-2 { background: linear-gradient(135deg, #16213e, #1a3a5c); }
-.gp-3 { background: linear-gradient(135deg, #0f3460, #1a1a2e); }
-.gp-4 { background: linear-gradient(135deg, #1a2a4a, #0d0d1a); }
-.gp-5 { background: linear-gradient(135deg, #2a1a3e, #1a1a2e); }
-.gp-6 { background: linear-gradient(135deg, #1a2e1a, #0d1a0d); }
-.gp-7 { background: linear-gradient(135deg, #2e1a1a, #1a0d0d); }
-.gp-8 { background: linear-gradient(135deg, #1a2e2e, #0d1a1a); }
-.gallery-overlay {
+.gallery-item:hover .gallery-bg { transform: scale(1.05); }
+.g1 { background: linear-gradient(145deg, #0f1a30, #1a2848); }
+.g2 { background: linear-gradient(145deg, #12122a, #1f2040); }
+.g3 { background: linear-gradient(145deg, #0c1a3a, #162454); }
+.g4 { background: linear-gradient(145deg, #1a1428, #281a38); }
+.g5 { background: linear-gradient(145deg, #1a2018, #0d1a0d); }
+.g6 { background: linear-gradient(145deg, #201414, #1a0d0d); }
+.g7 { background: linear-gradient(145deg, #141a20, #0d1418); }
+.g8 { background: linear-gradient(145deg, #18180c, #20200f); }
+.gallery-caption {
   position: absolute;
-  inset: 0;
-  background: linear-gradient(180deg, transparent 40%, rgba(13,13,26,0.9) 100%);
-  display: flex;
-  align-items: flex-end;
-  padding: 20px;
-  opacity: 0;
-  transition: opacity var(--transition);
+  bottom: 0; left: 0; right: 0;
+  padding: 40px 24px 20px;
+  background: linear-gradient(to top, rgba(6,6,16,0.95), transparent);
+  transform: translateY(100%);
+  transition: transform 0.5s var(--ease-out-expo);
 }
-.gallery-item:hover .gallery-overlay { opacity: 1; }
-.gallery-overlay-text {
+.gallery-item:hover .gallery-caption { transform: translateY(0); }
+.gallery-caption span {
   font-family: var(--font-heading);
-  font-size: 0.9rem;
+  font-size: 0.8rem;
   color: var(--gold-pale);
-  letter-spacing: 1px;
+  letter-spacing: 0.15em;
 }
 
 /* lightbox */
 .lightbox {
   position: fixed;
   inset: 0;
-  background: rgba(0,0,0,0.95);
-  z-index: 2000;
+  background: rgba(6,6,16,0.97);
+  z-index: 5000;
   display: flex;
   align-items: center;
   justify-content: center;
   opacity: 0;
   visibility: hidden;
-  transition: all 0.4s ease;
-  backdrop-filter: blur(10px);
+  transition: all 0.5s var(--ease-out-expo);
+  backdrop-filter: blur(16px);
 }
 .lightbox.active { opacity: 1; visibility: visible; }
-.lightbox-content {
-  max-width: 80vw;
-  max-height: 80vh;
+.lightbox-inner {
   position: relative;
   display: flex;
   align-items: center;
   justify-content: center;
 }
-.lightbox-placeholder {
-  width: 70vw;
-  height: 60vh;
+.lightbox-display {
+  width: 70vw; height: 60vh;
   max-width: 900px;
-  border-radius: 4px;
   display: flex;
   align-items: center;
   justify-content: center;
   font-family: var(--font-heading);
-  font-size: 1.2rem;
+  font-size: 1.1rem;
   color: var(--ivory-dim);
-  letter-spacing: 3px;
+  letter-spacing: 0.2em;
   text-transform: uppercase;
 }
-.lightbox-close {
+.lb-close {
   position: absolute;
-  top: -50px;
-  right: 0;
-  background: none;
-  border: none;
+  top: -60px; right: 0;
+  background: none; border: none;
   color: var(--gold);
-  font-size: 2rem;
-  cursor: pointer;
-  font-family: var(--font-heading);
-  transition: color var(--transition);
-  padding: 8px;
+  font-size: 1.6rem;
+  padding: 12px;
+  transition: transform 0.3s;
 }
-.lightbox-close:hover { color: var(--gold-light); }
-.lightbox-nav {
+.lb-close:hover { transform: rotate(90deg); }
+.lb-nav {
   position: absolute;
   top: 50%;
   transform: translateY(-50%);
   background: none;
-  border: 1px solid rgba(212,175,55,0.3);
+  border: 1px solid rgba(201,168,76,0.2);
   color: var(--gold);
-  font-size: 1.5rem;
-  cursor: pointer;
-  padding: 12px 16px;
-  transition: all var(--transition);
-  font-family: var(--font-heading);
+  font-size: 1.2rem;
+  padding: 14px 18px;
+  transition: all 0.3s;
 }
-.lightbox-nav:hover { background: rgba(212,175,55,0.1); border-color: var(--gold); }
-.lightbox-prev { left: -60px; }
-.lightbox-next { right: -60px; }
+.lb-nav:hover { background: rgba(201,168,76,0.08); border-color: var(--gold); }
+.lb-prev { left: -70px; }
+.lb-next { right: -70px; }
 
-/* ══════════════════════════════════════════
-   CONTACT
-   ══════════════════════════════════════════ */
-.contact {
-  background: linear-gradient(180deg, transparent 0%, rgba(13,13,26,0.4) 100%);
-}
-.contact-grid {
+/* ═══════ CONTACT ═══════ */
+.contact { background: linear-gradient(180deg, transparent, rgba(15,15,34,0.3)); }
+.contact-layout {
   display: grid;
   grid-template-columns: 1fr 1fr;
-  gap: 60px;
+  gap: 80px;
   align-items: start;
 }
 .contact-info h3 {
-  font-family: var(--font-display);
-  font-size: 1.5rem;
-  font-weight: 500;
+  font-family: var(--font-heading);
+  font-size: 1.3rem;
+  font-weight: 600;
   color: var(--gold);
-  margin-bottom: 16px;
+  margin-bottom: 20px;
+  letter-spacing: 0.05em;
 }
 .contact-info p {
   font-size: 1.05rem;
   color: var(--ivory-dim);
-  line-height: 1.9;
-  margin-bottom: 30px;
+  line-height: 2;
+  margin-bottom: 32px;
 }
-.social-links {
-  display: flex;
-  gap: 16px;
-}
-.social-link {
-  width: 44px;
-  height: 44px;
-  border: 1px solid rgba(212,175,55,0.25);
+.socials { display: flex; gap: 14px; }
+.soc-link {
+  width: 44px; height: 44px;
+  border: 1px solid rgba(201,168,76,0.15);
   border-radius: 50%;
   display: flex;
   align-items: center;
   justify-content: center;
-  transition: all var(--transition);
   color: var(--gold);
+  transition: all 0.4s var(--ease-out-expo);
 }
-.social-link:hover {
-  background: rgba(212,175,55,0.1);
+.soc-link:hover {
+  background: rgba(201,168,76,0.08);
   border-color: var(--gold);
-  transform: translateY(-3px);
+  transform: translateY(-4px);
 }
-.contact-form { display: flex; flex-direction: column; gap: 20px; }
-.form-group label {
+.contact-form { display: flex; flex-direction: column; gap: 24px; }
+.field { position: relative; }
+.field label {
   display: block;
   font-family: var(--font-heading);
-  font-size: 0.85rem;
-  font-weight: 400;
-  letter-spacing: 2px;
+  font-size: 0.7rem;
+  font-weight: 600;
+  letter-spacing: 0.25em;
   text-transform: uppercase;
-  color: var(--gold);
-  margin-bottom: 8px;
+  color: var(--gold-dark);
+  margin-bottom: 10px;
+  transition: color 0.3s;
 }
-.form-group input,
-.form-group textarea {
+.field:focus-within label { color: var(--gold); }
+.field input, .field textarea {
   width: 100%;
-  padding: 14px 18px;
-  background: rgba(26,26,46,0.6);
-  border: 1px solid rgba(212,175,55,0.15);
-  border-radius: 4px;
+  padding: 16px 0;
+  background: transparent;
+  border: none;
+  border-bottom: 1px solid rgba(201,168,76,0.12);
   color: var(--ivory);
   font-family: var(--font-body);
-  font-size: 1rem;
-  font-weight: 300;
-  transition: all var(--transition);
+  font-size: 1.05rem;
+  font-weight: 400;
   outline: none;
+  transition: border-color 0.4s;
 }
-.form-group input:focus,
-.form-group textarea:focus {
+.field input:focus, .field textarea:focus {
   border-color: var(--gold);
-  box-shadow: 0 0 20px rgba(212,175,55,0.08);
-  background: rgba(26,26,46,0.8);
 }
-.form-group input::placeholder,
-.form-group textarea::placeholder { color: rgba(201,185,154,0.4); }
-.form-group textarea { resize: vertical; min-height: 140px; }
-.btn-submit {
+.field input::placeholder, .field textarea::placeholder {
+  color: rgba(168,158,138,0.3);
+}
+.field textarea { resize: vertical; min-height: 120px; }
+.btn-mag {
   display: inline-flex;
   align-items: center;
-  justify-content: center;
-  gap: 10px;
-  padding: 16px 40px;
+  gap: 12px;
+  padding: 18px 44px;
   background: transparent;
   border: 1px solid var(--gold);
   color: var(--gold);
   font-family: var(--font-heading);
-  font-size: 1rem;
-  font-weight: 400;
-  letter-spacing: 3px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  letter-spacing: 0.25em;
   text-transform: uppercase;
-  cursor: pointer;
-  transition: all var(--transition);
-  border-radius: 2px;
+  transition: all 0.4s var(--ease-out-expo);
   align-self: flex-start;
+  position: relative;
+  overflow: hidden;
 }
-.btn-submit:hover {
+.btn-mag::before {
+  content: '';
+  position: absolute;
+  inset: 0;
   background: var(--gold);
-  color: var(--midnight);
-  box-shadow: 0 0 30px rgba(212,175,55,0.2);
+  transform: translateY(101%);
+  transition: transform 0.4s var(--ease-out-expo);
 }
-.btn-submit-arrow {
-  transition: transform var(--transition);
-  font-size: 1.1rem;
+.btn-mag:hover::before { transform: translateY(0); }
+.btn-mag span { position: relative; z-index: 1; }
+.btn-mag:hover { color: var(--bg-deepest); }
+.btn-mag .arrow {
+  position: relative; z-index: 1;
+  transition: transform 0.3s;
 }
-.btn-submit:hover .btn-submit-arrow { transform: translateX(4px); }
+.btn-mag:hover .arrow { transform: translateX(5px); }
 
-/* ══════════════════════════════════════════
-   FOOTER
-   ══════════════════════════════════════════ */
+/* ═══════ FOOTER ═══════ */
 .footer {
   position: relative;
-  z-index: 1;
+  z-index: 2;
   text-align: center;
-  padding: 60px 20px 40px;
-  border-top: 1px solid rgba(212,175,55,0.08);
+  padding: 80px 24px 48px;
+  border-top: 1px solid rgba(201,168,76,0.04);
 }
 .footer-crest {
-  width: 60px;
-  margin: 0 auto 20px;
-  opacity: 0.5;
-  filter: drop-shadow(0 0 10px rgba(212,175,55,0.15));
+  width: 48px;
+  margin: 0 auto 24px;
+  opacity: 0.35;
+  filter: drop-shadow(0 0 10px rgba(201,168,76,0.1));
 }
 .footer-motto {
-  font-family: var(--font-heading);
-  font-size: 1.1rem;
+  font-family: var(--font-accent);
+  font-size: 1rem;
   font-style: italic;
   color: var(--gold);
-  letter-spacing: 3px;
-  margin-bottom: 8px;
-  opacity: 0.8;
+  letter-spacing: 0.15em;
+  margin-bottom: 10px;
+  opacity: 0.7;
 }
 .footer-copy {
-  font-size: 0.85rem;
-  color: var(--ivory-dim);
-  opacity: 0.4;
-  letter-spacing: 1px;
+  font-size: 0.8rem;
+  color: var(--ivory-muted);
+  letter-spacing: 0.1em;
 }
 
-/* ══════════════════════════════════════════
-   RESPONSIVE
-   ══════════════════════════════════════════ */
+/* ═══════ RESPONSIVE ═══════ */
 @media (max-width: 1024px) {
-  .gallery-grid { grid-template-columns: repeat(3, 1fr); grid-auto-rows: 180px; }
+  .gallery-item.gi-wide { width: 400px; height: 280px; }
+  .gallery-item.gi-sq { width: 280px; height: 280px; }
+  .timeline-card { width: 350px; }
 }
 @media (max-width: 768px) {
+  body { cursor: auto; }
+  .cursor-dot, .cursor-ring { display: none; }
   .nav-links {
     display: none;
     position: fixed;
-    top: 0; left: 0; right: 0; bottom: 0;
-    background: rgba(13,13,26,0.98);
-    backdrop-filter: blur(20px);
+    inset: 0;
+    background: rgba(6,6,16,0.98);
+    backdrop-filter: blur(24px);
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    gap: 30px;
+    gap: 28px;
   }
   .nav-links.open { display: flex; }
-  .nav-links a { font-size: 1.3rem; letter-spacing: 4px; }
-  .nav-toggle { display: flex; z-index: 1001; }
-  .lang-switcher { z-index: 1001; }
-  .about-grid { grid-template-columns: 1fr; gap: 40px; }
+  .nav-links a { font-size: 1.1rem; letter-spacing: 0.3em; }
+  .nav-toggle { display: flex; }
+  .nav { padding: 18px 24px; }
+  .nav.scrolled { padding: 12px 24px; }
+  .about-layout { grid-template-columns: 1fr; gap: 48px; }
   .about-visual { order: -1; }
-  .about-text p:first-of-type::first-letter { font-size: 2.8rem; }
-  .origin-banner { grid-template-columns: 1fr; }
-  .family-grid { grid-template-columns: 1fr; max-width: 400px; margin: 0 auto; }
-  .gallery-grid { grid-template-columns: repeat(2, 1fr); grid-auto-rows: 160px; }
-  .gallery-item.wide { grid-column: span 1; }
-  .gallery-item.tall { grid-row: span 1; }
-  .contact-grid { grid-template-columns: 1fr; gap: 40px; }
-  .lightbox-prev { left: 10px; }
-  .lightbox-next { right: 10px; }
-  .lightbox-placeholder { width: 90vw; height: 50vh; }
-  .coa-img { width: 200px; }
-  .coa-glow { width: 300px; height: 300px; }
-  .hero-title { letter-spacing: 6px; }
+  .about-text p:first-of-type::first-letter { font-size: 3rem; }
+  .origin-row { grid-template-columns: 1fr; }
+  .contact-layout { grid-template-columns: 1fr; gap: 48px; }
+  .gallery-item.gi-tall { width: 220px; height: 330px; }
+  .gallery-item.gi-wide { width: 360px; height: 240px; }
+  .gallery-item.gi-sq { width: 260px; height: 260px; }
+  .timeline-card { width: 300px; }
+  .lb-prev { left: 8px; }
+  .lb-next { right: 8px; }
+  .lightbox-display { width: 90vw; height: 50vh; }
 }
 @media (max-width: 480px) {
-  .nav { padding: 16px 20px; }
-  .nav.scrolled { padding: 10px 20px; }
-  .nav-brand { font-size: 1.1rem; letter-spacing: 2px; }
-  .gallery-grid { grid-template-columns: 1fr; grid-auto-rows: 200px; }
-  .hero-subtitle { letter-spacing: 4px; }
-  .hero-tagline { letter-spacing: 2px; }
-  .social-links { flex-wrap: wrap; }
-  .lang-btn { padding: 4px 7px; font-size: 0.7rem; }
+  .nav-brand { font-size: 0.85rem; letter-spacing: 4px; }
+  .lang-btn { padding: 5px 7px; font-size: 0.55rem; }
+  .hero-title { letter-spacing: 0.08em; }
+  .coa-img { width: 180px; }
+  .gallery-item.gi-tall { width: 200px; height: 300px; }
+  .gallery-item.gi-wide { width: 300px; height: 200px; }
+  .gallery-item.gi-sq { width: 240px; height: 240px; }
+  .timeline-card { width: 260px; padding: 0 24px; }
 }
 </style>
 </head>
 <body>
 
-<!-- ═══════ NAVIGATION ═══════ -->
+<!-- CUSTOM CURSOR -->
+<div class="cursor-dot" id="cursorDot"></div>
+<div class="cursor-ring" id="cursorRing"></div>
+
+<!-- GRAIN OVERLAY -->
+<div class="grain"></div>
+
+<!-- PARTICLE CANVAS -->
+<canvas id="particleCanvas"></canvas>
+
+<!-- PRELOADER -->
+<div class="preloader" id="preloader">
+  <svg class="preloader-shield" viewBox="0 0 60 75">
+    <path d="M5 4 H55 V40 Q55 65 30 72 Q5 65 5 40 Z"/>
+    <circle class="shield-sun" cx="30" cy="32" r="10"/>
+  </svg>
+  <div class="preloader-text" id="preloaderText"></div>
+  <div class="preloader-bar"></div>
+</div>
+
+<!-- NAVIGATION -->
 <nav class="nav" id="nav">
   <div class="nav-brand">Yaldaram</div>
   <ul class="nav-links" id="navLinks">
@@ -1040,525 +973,617 @@ section {
       <button class="lang-btn" data-lang="de">DE</button>
       <button class="lang-btn" data-lang="tr">TR</button>
     </div>
-    <button class="nav-toggle" id="navToggle" aria-label="Toggle navigation">
+    <button class="nav-toggle" id="navToggle" aria-label="Menu">
       <span></span><span></span><span></span>
     </button>
   </div>
 </nav>
 
-<!-- ═══════ HERO ═══════ -->
+<!-- HERO -->
 <section class="hero" id="home">
-  <div class="coa-container">
-    <div class="coa-glow"></div>
-    <div class="coa-glow-ring"></div>
-    <img src="yaldaram-family.png" alt="Yaldaram Family Coat of Arms" class="coa-img">
+  <div class="hero-bg-gradient"></div>
+  <div class="coa-wrap" id="coaWrap">
+    <div class="coa-halo"></div>
+    <img src="yaldaram-family.png" alt="Yaldaram Coat of Arms" class="coa-img" id="coaImg">
   </div>
-  <h1 class="hero-title">Yaldaram</h1>
-  <p class="hero-subtitle" data-i18n="hero_subtitle">Rooted in Ardahan &bull; Forged Through Generations</p>
-  <p class="hero-tagline" data-i18n="hero_tagline">Heritage &bull; Honor &bull; Legacy</p>
-  <p class="hero-origin" data-i18n="hero_origin">Ardahan &mdash; Trabzon &mdash; Anatolia</p>
-  <div class="scroll-indicator" onclick="document.getElementById('about').scrollIntoView({behavior:'smooth'})">
+  <h1 class="hero-title" id="heroTitle">Yaldaram</h1>
+  <div class="hero-line" id="heroLine"></div>
+  <p class="hero-subtitle" id="heroSubtitle" data-i18n="hero_subtitle">Rooted in Ardahan · Forged Through Generations</p>
+  <p class="hero-tagline" id="heroTagline" data-i18n="hero_tagline">Heritage · Honor · Legacy</p>
+  <p class="hero-origin" id="heroOrigin" data-i18n="hero_origin">Ardahan — Trabzon — Anatolia</p>
+  <div class="scroll-cue" id="scrollCue">
     <span data-i18n="hero_discover">Discover</span>
-    <div class="scroll-arrow"></div>
+    <div class="scroll-cue-line"></div>
   </div>
 </section>
 
-<!-- ═══════ ABOUT / HISTORY ═══════ -->
-<div class="flourish reveal"><div class="flourish-diamond"></div><span class="flourish-ornament">&diams;</span><div class="flourish-diamond"></div></div>
+<!-- DIVIDER -->
+<div class="divider"><div class="divider-gem"></div></div>
 
-<section class="about" id="about">
+<!-- ABOUT -->
+<section class="about section-pad" id="about">
   <div class="container">
-    <div class="section-header reveal">
-      <span class="section-label" data-i18n="about_label">Our Heritage</span>
-      <h2 class="section-title" data-i18n="about_title">From the Highlands of Ardahan to the World</h2>
-      <p class="section-subtitle" data-i18n="about_subtitle">A legacy born in the rugged mountains of northeastern Anatolia, carried across generations with pride and perseverance.</p>
+    <div style="text-align:center; margin-bottom:64px;">
+      <span class="sec-label" data-i18n="about_label">Our Heritage</span>
+      <h2 class="sec-title" data-i18n="about_title">From the Highlands of Ardahan to the World</h2>
+      <p class="sec-sub" style="margin:0 auto;" data-i18n="about_subtitle">A legacy born in the rugged mountains of northeastern Anatolia, carried across generations with pride and perseverance.</p>
     </div>
-
-    <div class="about-grid">
-      <div class="about-text reveal-left">
+    <div class="about-layout">
+      <div class="about-text">
         <h3 data-i18n="about_h3">Ardahan &amp; Trabzon — Our Ancestral Homeland</h3>
         <p data-i18n="about_p1">The Yaldaram family traces its deepest roots to Ardahan, the storied highland province on Turkey's northeastern frontier. Nestled among the peaks of the Caucasus foothills, Ardahan has long been a crossroads of cultures, empires, and resilient communities. It was here, amid vast plateaus and harsh winters, that the Yaldaram name was first spoken — carried by a family known for their fortitude and loyalty to their land.</p>
         <p data-i18n="about_p2">The family's story is also intertwined with Trabzon, the ancient port city on the Black Sea coast. Trabzon served as a gateway — a place where mountain families met the wider world, where trade routes from Persia, the Caucasus, and the Mediterranean converged. Through Trabzon, the Yaldarams connected their highland roots with the broader currents of Anatolian life, commerce, and culture.</p>
         <p data-i18n="about_p3">The coat of arms tells this story in symbols: the radiant sun represents the enduring light of Ardahan's open skies, the peacock crown speaks to the dignity carried from one generation to the next, and the snowflower on the azure field honors the family's resilience through the legendary winters of the northeast — a people shaped by their land, never broken by it.</p>
       </div>
-      <div class="about-visual reveal-right">
-        <img src="yaldaram-family.png" alt="Yaldaram Coat of Arms" class="about-crest">
+      <div class="about-visual">
+        <img src="yaldaram-family.png" alt="Coat of Arms" class="about-crest">
         <div class="about-frame"></div>
       </div>
     </div>
 
-    <!-- Origin cards: Ardahan & Trabzon -->
-    <div class="origin-banner reveal">
-      <div class="origin-card">
+    <div class="origin-row">
+      <div class="origin-card" id="cardArdahan">
         <span class="origin-icon">&#9968;</span>
         <h4>Ardahan</h4>
         <p data-i18n="origin_ardahan">The ancestral heartland. Ardahan's high plateaus and fortress ruins echo with the memory of generations past. The family's values — endurance, community, honor — were forged in this unforgiving yet beautiful landscape at the edge of the Caucasus.</p>
       </div>
-      <div class="origin-card">
+      <div class="origin-card" id="cardTrabzon">
         <span class="origin-icon">&#9875;</span>
         <h4>Trabzon</h4>
         <p data-i18n="origin_trabzon">The gateway to the world. Trabzon's ancient harbor connected the highland families of the northeast to the trade and culture of the Black Sea and beyond. For the Yaldarams, Trabzon was where roots met horizon — a bridge between ancestral soil and new frontiers.</p>
       </div>
     </div>
+  </div>
+</section>
 
-    <div class="timeline reveal">
-      <div class="timeline-item">
-        <div class="timeline-year" data-i18n="tl1_year">Ancestral Roots — Ardahan</div>
-        <p class="timeline-text" data-i18n="tl1_text">The earliest known Yaldaram forebears settle in the highlands of Ardahan province, establishing a household bound by the values of the northeastern frontier — resilience, hospitality, and unwavering family loyalty.</p>
-      </div>
-      <div class="timeline-item">
-        <div class="timeline-year" data-i18n="tl2_year">The Trabzon Connection</div>
-        <p class="timeline-text" data-i18n="tl2_text">The family extends its reach to Trabzon, the great Black Sea port. Trade, education, and cultural exchange along the coast open new chapters in the Yaldaram story, while the bond to Ardahan remains unbroken.</p>
-      </div>
-      <div class="timeline-item">
-        <div class="timeline-year" data-i18n="tl3_year">The Coat of Arms</div>
-        <p class="timeline-text" data-i18n="tl3_text">The family crest is formalized — the radiant sun of Ardahan's open skies, the peacock crown of ancestral dignity, and the snowflower of northeastern resilience become lasting symbols of Yaldaram identity.</p>
-      </div>
-      <div class="timeline-item">
-        <div class="timeline-year" data-i18n="tl4_year">Migration &amp; Growth</div>
-        <p class="timeline-text" data-i18n="tl4_text">Branches of the family spread across Turkey and beyond, carrying the spirit of Ardahan and the ambition kindled in Trabzon to new lands. Wherever they go, the Yaldaram name commands respect.</p>
-      </div>
-      <div class="timeline-item">
-        <div class="timeline-year" data-i18n="tl5_year">The Modern Era</div>
-        <p class="timeline-text" data-i18n="tl5_text">Today, the Yaldaram family thrives across the globe — a living testament to the enduring strength of Anatolian kinship, shared memory, and a name carried with pride from the highlands of Ardahan to every corner of the world.</p>
-      </div>
+<!-- TIMELINE — HORIZONTAL SCROLL -->
+<div class="divider"><div class="divider-gem"></div></div>
+<section class="timeline-section section-pad" id="timelineSection">
+  <div class="container" style="margin-bottom:40px;">
+    <span class="sec-label" data-i18n="tl_label">Through the Ages</span>
+    <h2 class="sec-title" data-i18n="tl_title">Our Journey</h2>
+  </div>
+  <div class="timeline-track" id="timelineTrack">
+    <div class="timeline-card">
+      <div class="tl-year" data-i18n="tl1_year">Ancestral Roots — Ardahan</div>
+      <p class="tl-text" data-i18n="tl1_text">The earliest known Yaldaram forebears settle in the highlands of Ardahan province, establishing a household bound by the values of the northeastern frontier — resilience, hospitality, and unwavering family loyalty.</p>
+    </div>
+    <div class="timeline-card">
+      <div class="tl-year" data-i18n="tl2_year">The Trabzon Connection</div>
+      <p class="tl-text" data-i18n="tl2_text">The family extends its reach to Trabzon, the great Black Sea port. Trade, education, and cultural exchange along the coast open new chapters in the Yaldaram story, while the bond to Ardahan remains unbroken.</p>
+    </div>
+    <div class="timeline-card">
+      <div class="tl-year" data-i18n="tl3_year">The Coat of Arms</div>
+      <p class="tl-text" data-i18n="tl3_text">The family crest is formalized — the radiant sun of Ardahan's open skies, the peacock crown of ancestral dignity, and the snowflower of northeastern resilience become lasting symbols of Yaldaram identity.</p>
+    </div>
+    <div class="timeline-card">
+      <div class="tl-year" data-i18n="tl4_year">Migration &amp; Growth</div>
+      <p class="tl-text" data-i18n="tl4_text">Branches of the family spread across Turkey and beyond, carrying the spirit of Ardahan and the ambition kindled in Trabzon to new lands. Wherever they go, the Yaldaram name commands respect.</p>
+    </div>
+    <div class="timeline-card">
+      <div class="tl-year" data-i18n="tl5_year">The Modern Era</div>
+      <p class="tl-text" data-i18n="tl5_text">Today, the Yaldaram family thrives across the globe — a living testament to the enduring strength of Anatolian kinship, shared memory, and a name carried with pride from the highlands of Ardahan to every corner of the world.</p>
     </div>
   </div>
 </section>
 
-<!-- ═══════ FAMILY MEMBERS ═══════ -->
-<div class="flourish reveal"><div class="flourish-diamond"></div><span class="flourish-ornament">&loz;</span><div class="flourish-diamond"></div></div>
-
-<section class="family" id="family">
+<!-- FAMILY -->
+<div class="divider"><div class="divider-gem"></div></div>
+<section class="family section-pad" id="family">
   <div class="container">
-    <div class="section-header reveal">
-      <span class="section-label" data-i18n="fam_label">Our People</span>
-      <h2 class="section-title" data-i18n="fam_title">The Yaldaram Family</h2>
-      <p class="section-subtitle" data-i18n="fam_subtitle">Each member carries the family legacy forward in their own way, united by the bonds that define us.</p>
+    <div style="text-align:center; margin-bottom:48px;">
+      <span class="sec-label" data-i18n="fam_label">Our People</span>
+      <h2 class="sec-title" data-i18n="fam_title">The Yaldaram Family</h2>
+      <p class="sec-sub" style="margin:0 auto;" data-i18n="fam_subtitle">Each member carries the family legacy forward in their own way, united by the bonds that define us.</p>
     </div>
+    <div class="family-empty" data-i18n="fam_empty">Members will be added soon.</div>
+  </div>
+</section>
 
-    <div class="family-grid stagger" id="familyGrid">
-      <!-- Family members can be added here -->
-      <p class="family-empty" data-i18n="fam_empty" style="grid-column:1/-1; text-align:center; color:var(--ivory-dim); font-family:var(--font-heading); font-style:italic; font-size:1.1rem; letter-spacing:2px; padding:40px 0; opacity:0.6;">Members will be added soon.</p>
+<!-- GALLERY — HORIZONTAL SCROLL -->
+<div class="divider"><div class="divider-gem"></div></div>
+<section class="gallery-section section-pad" id="gallerySection">
+  <div class="container" style="margin-bottom:40px;">
+    <span class="sec-label" data-i18n="gal_label">Memories</span>
+    <h2 class="sec-title" data-i18n="gal_title">Family Gallery</h2>
+    <p class="sec-sub" data-i18n="gal_subtitle">Moments captured through the years — celebrations, gatherings, and the quiet joys of family life.</p>
+  </div>
+  <div class="gallery-track" id="galleryTrack">
+    <div class="gallery-item gi-tall" data-index="0">
+      <div class="gallery-bg g1" data-i18n="gal_ph1">Family Portrait</div>
+      <div class="gallery-caption"><span data-i18n="gal_ov1">Family Portrait — Ardahan</span></div>
+    </div>
+    <div class="gallery-item gi-wide" data-index="1">
+      <div class="gallery-bg g2" data-i18n="gal_ph2">Celebration</div>
+      <div class="gallery-caption"><span data-i18n="gal_ov2">Annual Gathering</span></div>
+    </div>
+    <div class="gallery-item gi-sq" data-index="2">
+      <div class="gallery-bg g3" data-i18n="gal_ph3">Heritage</div>
+      <div class="gallery-caption"><span data-i18n="gal_ov3">Ardahan Highlands</span></div>
+    </div>
+    <div class="gallery-item gi-tall" data-index="3">
+      <div class="gallery-bg g4" data-i18n="gal_ph4">Traditions</div>
+      <div class="gallery-caption"><span data-i18n="gal_ov4">Trabzon Harbor</span></div>
+    </div>
+    <div class="gallery-item gi-wide" data-index="4">
+      <div class="gallery-bg g5" data-i18n="gal_ph5">Wedding</div>
+      <div class="gallery-caption"><span data-i18n="gal_ov5">A Yaldaram Wedding</span></div>
+    </div>
+    <div class="gallery-item gi-sq" data-index="5">
+      <div class="gallery-bg g6" data-i18n="gal_ph6">Homeland</div>
+      <div class="gallery-caption"><span data-i18n="gal_ov6">Ancestral Homeland</span></div>
+    </div>
+    <div class="gallery-item gi-tall" data-index="6">
+      <div class="gallery-bg g7" data-i18n="gal_ph7">Travel</div>
+      <div class="gallery-caption"><span data-i18n="gal_ov7">Kaçkar Mountains</span></div>
+    </div>
+    <div class="gallery-item gi-wide" data-index="7">
+      <div class="gallery-bg g8" data-i18n="gal_ph8">Generations</div>
+      <div class="gallery-caption"><span data-i18n="gal_ov8">Three Generations</span></div>
     </div>
   </div>
 </section>
 
-<!-- ═══════ GALLERY ═══════ -->
-<div class="flourish reveal"><div class="flourish-diamond"></div><span class="flourish-ornament">&diams;</span><div class="flourish-diamond"></div></div>
-
-<section class="gallery" id="gallery">
+<!-- CONTACT -->
+<div class="divider"><div class="divider-gem"></div></div>
+<section class="contact section-pad" id="contact">
   <div class="container">
-    <div class="section-header reveal">
-      <span class="section-label" data-i18n="gal_label">Memories</span>
-      <h2 class="section-title" data-i18n="gal_title">Family Gallery</h2>
-      <p class="section-subtitle" data-i18n="gal_subtitle">Moments captured through the years — celebrations, gatherings, and the quiet joys of family life.</p>
+    <div style="text-align:center; margin-bottom:64px;">
+      <span class="sec-label" data-i18n="con_label">Get in Touch</span>
+      <h2 class="sec-title" data-i18n="con_title">Reach Out to Us</h2>
+      <p class="sec-sub" style="margin:0 auto;" data-i18n="con_subtitle">Whether you're family, friend, or fellow traveler on the path of heritage — we'd love to hear from you.</p>
     </div>
-
-    <div class="gallery-grid reveal">
-      <div class="gallery-item tall" data-index="0">
-        <div class="gallery-placeholder gp-1" data-i18n="gal_ph1">Family Portrait</div>
-        <div class="gallery-overlay"><span class="gallery-overlay-text" data-i18n="gal_ov1">Family Portrait — Ardahan</span></div>
-      </div>
-      <div class="gallery-item wide" data-index="1">
-        <div class="gallery-placeholder gp-2" data-i18n="gal_ph2">Celebration</div>
-        <div class="gallery-overlay"><span class="gallery-overlay-text" data-i18n="gal_ov2">Annual Gathering</span></div>
-      </div>
-      <div class="gallery-item" data-index="2">
-        <div class="gallery-placeholder gp-3" data-i18n="gal_ph3">Heritage</div>
-        <div class="gallery-overlay"><span class="gallery-overlay-text" data-i18n="gal_ov3">Ardahan Highlands</span></div>
-      </div>
-      <div class="gallery-item" data-index="3">
-        <div class="gallery-placeholder gp-4" data-i18n="gal_ph4">Traditions</div>
-        <div class="gallery-overlay"><span class="gallery-overlay-text" data-i18n="gal_ov4">Trabzon Harbor</span></div>
-      </div>
-      <div class="gallery-item wide" data-index="4">
-        <div class="gallery-placeholder gp-5" data-i18n="gal_ph5">Wedding</div>
-        <div class="gallery-overlay"><span class="gallery-overlay-text" data-i18n="gal_ov5">A Yaldaram Wedding</span></div>
-      </div>
-      <div class="gallery-item" data-index="5">
-        <div class="gallery-placeholder gp-6" data-i18n="gal_ph6">Homeland</div>
-        <div class="gallery-overlay"><span class="gallery-overlay-text" data-i18n="gal_ov6">Ancestral Homeland</span></div>
-      </div>
-      <div class="gallery-item" data-index="6">
-        <div class="gallery-placeholder gp-7" data-i18n="gal_ph7">Travel</div>
-        <div class="gallery-overlay"><span class="gallery-overlay-text" data-i18n="gal_ov7">Kackar Mountains</span></div>
-      </div>
-      <div class="gallery-item tall" data-index="7">
-        <div class="gallery-placeholder gp-8" data-i18n="gal_ph8">Generations</div>
-        <div class="gallery-overlay"><span class="gallery-overlay-text" data-i18n="gal_ov8">Three Generations</span></div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<!-- ═══════ CONTACT ═══════ -->
-<div class="flourish reveal"><div class="flourish-diamond"></div><span class="flourish-ornament">&loz;</span><div class="flourish-diamond"></div></div>
-
-<section class="contact" id="contact">
-  <div class="container">
-    <div class="section-header reveal">
-      <span class="section-label" data-i18n="con_label">Get in Touch</span>
-      <h2 class="section-title" data-i18n="con_title">Reach Out to Us</h2>
-      <p class="section-subtitle" data-i18n="con_subtitle">Whether you're family, friend, or fellow traveler on the path of heritage — we'd love to hear from you.</p>
-    </div>
-
-    <div class="contact-grid">
-      <div class="contact-info reveal-left">
+    <div class="contact-layout">
+      <div class="contact-info">
         <h3 data-i18n="con_h3">Connect With the Family</h3>
         <p data-i18n="con_p">The Yaldaram family welcomes correspondence from relatives near and far, researchers exploring shared ancestry, and friends old and new. Whether your roots lead to Ardahan, Trabzon, or beyond — reach out. Every connection strengthens the bonds of our heritage.</p>
-        <div class="social-links">
-          <a href="#" class="social-link" title="Facebook" aria-label="Facebook">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>
-          </a>
-          <a href="#" class="social-link" title="Instagram" aria-label="Instagram">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1"/></svg>
-          </a>
-          <a href="#" class="social-link" title="Email" aria-label="Email">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg>
-          </a>
-          <a href="#" class="social-link" title="X" aria-label="X">
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4l11.733 16h4.267l-11.733-16zM4 20l6.768-6.768M13.232 10.768L20 4"/></svg>
-          </a>
+        <div class="socials">
+          <a href="#" class="soc-link" aria-label="Facebook"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg></a>
+          <a href="#" class="soc-link" aria-label="Instagram"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="5"/><circle cx="17.5" cy="6.5" r="1"/></svg></a>
+          <a href="#" class="soc-link" aria-label="Email"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></a>
+          <a href="#" class="soc-link" aria-label="X"><svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5"><path d="M4 4l11.733 16h4.267l-11.733-16zM4 20l6.768-6.768M13.232 10.768L20 4"/></svg></a>
         </div>
       </div>
-
-      <form class="contact-form reveal-right" onsubmit="handleSubmit(event)">
-        <div class="form-group">
-          <label for="name" data-i18n="form_name">Your Name</label>
-          <input type="text" id="name" name="name" data-i18n-placeholder="form_name_ph" placeholder="Enter your full name" required>
+      <form class="contact-form" id="contactForm">
+        <div class="field">
+          <label data-i18n="form_name">Your Name</label>
+          <input type="text" data-i18n-placeholder="form_name_ph" placeholder="Enter your full name" required>
         </div>
-        <div class="form-group">
-          <label for="email" data-i18n="form_email">Email Address</label>
-          <input type="email" id="email" name="email" data-i18n-placeholder="form_email_ph" placeholder="Enter your email" required>
+        <div class="field">
+          <label data-i18n="form_email">Email Address</label>
+          <input type="email" data-i18n-placeholder="form_email_ph" placeholder="Enter your email" required>
         </div>
-        <div class="form-group">
-          <label for="message" data-i18n="form_msg">Message</label>
-          <textarea id="message" name="message" data-i18n-placeholder="form_msg_ph" placeholder="Share your thoughts, family connections, or inquiries..." required></textarea>
+        <div class="field">
+          <label data-i18n="form_msg">Message</label>
+          <textarea data-i18n-placeholder="form_msg_ph" placeholder="Share your thoughts, family connections, or inquiries..." required></textarea>
         </div>
-        <button type="submit" class="btn-submit">
+        <button type="submit" class="btn-mag" id="btnSubmit">
           <span data-i18n="form_send">Send Message</span>
-          <span class="btn-submit-arrow">&rarr;</span>
+          <span class="arrow">&rarr;</span>
         </button>
       </form>
     </div>
   </div>
 </section>
 
-<!-- ═══════ FOOTER ═══════ -->
+<!-- FOOTER -->
 <footer class="footer">
   <img src="yaldaram-family.png" alt="Crest" class="footer-crest">
   <p class="footer-motto" data-i18n="footer_motto">"In Unity, Our Strength Endures"</p>
-  <p class="footer-copy">&copy; 2026 House of Yaldaram. All rights reserved.</p>
+  <p class="footer-copy">&copy; 2026 House of Yaldaram</p>
 </footer>
 
-<!-- ═══════ LIGHTBOX ═══════ -->
+<!-- LIGHTBOX -->
 <div class="lightbox" id="lightbox">
-  <div class="lightbox-content">
-    <button class="lightbox-close" id="lightboxClose" aria-label="Close">&times;</button>
-    <button class="lightbox-nav lightbox-prev" id="lightboxPrev" aria-label="Previous">&lsaquo;</button>
-    <div class="lightbox-placeholder" id="lightboxImage"></div>
-    <button class="lightbox-nav lightbox-next" id="lightboxNext" aria-label="Next">&rsaquo;</button>
+  <div class="lightbox-inner">
+    <button class="lb-close" id="lbClose">&times;</button>
+    <button class="lb-nav lb-prev" id="lbPrev">&lsaquo;</button>
+    <div class="lightbox-display" id="lbDisplay"></div>
+    <button class="lb-nav lb-next" id="lbNext">&rsaquo;</button>
   </div>
 </div>
 
+<!-- CDN LIBS -->
+<script src="https://cdn.jsdelivr.net/npm/lenis@1.1.18/dist/lenis.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/gsap.min.js"></script>
+<script src="https://cdn.jsdelivr.net/npm/gsap@3.12.7/dist/ScrollTrigger.min.js"></script>
+
 <script>
+try {
 /* ══════════════════════════════════════════
    TRANSLATIONS
    ══════════════════════════════════════════ */
 const T = {
   en: {
-    // nav
-    nav_home: 'Home', nav_history: 'History', nav_family: 'Family', nav_gallery: 'Gallery', nav_contact: 'Contact',
-    // hero
-    hero_subtitle: 'Rooted in Ardahan \u2022 Forged Through Generations',
-    hero_tagline: 'Heritage \u2022 Honor \u2022 Legacy',
-    hero_origin: 'Ardahan \u2014 Trabzon \u2014 Anatolia',
-    hero_discover: 'Discover',
-    // about
-    about_label: 'Our Heritage',
-    about_title: 'From the Highlands of Ardahan to the World',
-    about_subtitle: 'A legacy born in the rugged mountains of northeastern Anatolia, carried across generations with pride and perseverance.',
-    about_h3: 'Ardahan & Trabzon \u2014 Our Ancestral Homeland',
-    about_p1: 'The Yaldaram family traces its deepest roots to Ardahan, the storied highland province on Turkey\u2019s northeastern frontier. Nestled among the peaks of the Caucasus foothills, Ardahan has long been a crossroads of cultures, empires, and resilient communities. It was here, amid vast plateaus and harsh winters, that the Yaldaram name was first spoken \u2014 carried by a family known for their fortitude and loyalty to their land.',
-    about_p2: 'The family\u2019s story is also intertwined with Trabzon, the ancient port city on the Black Sea coast. Trabzon served as a gateway \u2014 a place where mountain families met the wider world, where trade routes from Persia, the Caucasus, and the Mediterranean converged. Through Trabzon, the Yaldarams connected their highland roots with the broader currents of Anatolian life, commerce, and culture.',
-    about_p3: 'The coat of arms tells this story in symbols: the radiant sun represents the enduring light of Ardahan\u2019s open skies, the peacock crown speaks to the dignity carried from one generation to the next, and the snowflower on the azure field honors the family\u2019s resilience through the legendary winters of the northeast \u2014 a people shaped by their land, never broken by it.',
-    origin_ardahan: 'The ancestral heartland. Ardahan\u2019s high plateaus and fortress ruins echo with the memory of generations past. The family\u2019s values \u2014 endurance, community, honor \u2014 were forged in this unforgiving yet beautiful landscape at the edge of the Caucasus.',
-    origin_trabzon: 'The gateway to the world. Trabzon\u2019s ancient harbor connected the highland families of the northeast to the trade and culture of the Black Sea and beyond. For the Yaldarams, Trabzon was where roots met horizon \u2014 a bridge between ancestral soil and new frontiers.',
-    tl1_year: 'Ancestral Roots \u2014 Ardahan', tl1_text: 'The earliest known Yaldaram forebears settle in the highlands of Ardahan province, establishing a household bound by the values of the northeastern frontier \u2014 resilience, hospitality, and unwavering family loyalty.',
-    tl2_year: 'The Trabzon Connection', tl2_text: 'The family extends its reach to Trabzon, the great Black Sea port. Trade, education, and cultural exchange along the coast open new chapters in the Yaldaram story, while the bond to Ardahan remains unbroken.',
-    tl3_year: 'The Coat of Arms', tl3_text: 'The family crest is formalized \u2014 the radiant sun of Ardahan\u2019s open skies, the peacock crown of ancestral dignity, and the snowflower of northeastern resilience become lasting symbols of Yaldaram identity.',
-    tl4_year: 'Migration & Growth', tl4_text: 'Branches of the family spread across Turkey and beyond, carrying the spirit of Ardahan and the ambition kindled in Trabzon to new lands. Wherever they go, the Yaldaram name commands respect.',
-    tl5_year: 'The Modern Era', tl5_text: 'Today, the Yaldaram family thrives across the globe \u2014 a living testament to the enduring strength of Anatolian kinship, shared memory, and a name carried with pride from the highlands of Ardahan to every corner of the world.',
-    // family
-    fam_label: 'Our People', fam_title: 'The Yaldaram Family', fam_subtitle: 'Each member carries the family legacy forward in their own way, united by the bonds that define us.',
-    fam_empty: 'Members will be added soon.',
-    // gallery
-    gal_label: 'Memories', gal_title: 'Family Gallery', gal_subtitle: 'Moments captured through the years \u2014 celebrations, gatherings, and the quiet joys of family life.',
-    gal_ph1: 'Family Portrait', gal_ph2: 'Celebration', gal_ph3: 'Heritage', gal_ph4: 'Traditions', gal_ph5: 'Wedding', gal_ph6: 'Homeland', gal_ph7: 'Travel', gal_ph8: 'Generations',
-    gal_ov1: 'Family Portrait \u2014 Ardahan', gal_ov2: 'Annual Gathering', gal_ov3: 'Ardahan Highlands', gal_ov4: 'Trabzon Harbor', gal_ov5: 'A Yaldaram Wedding', gal_ov6: 'Ancestral Homeland', gal_ov7: 'Ka\u00e7kar Mountains', gal_ov8: 'Three Generations',
-    // contact
-    con_label: 'Get in Touch', con_title: 'Reach Out to Us', con_subtitle: 'Whether you\u2019re family, friend, or fellow traveler on the path of heritage \u2014 we\u2019d love to hear from you.',
-    con_h3: 'Connect With the Family',
-    con_p: 'The Yaldaram family welcomes correspondence from relatives near and far, researchers exploring shared ancestry, and friends old and new. Whether your roots lead to Ardahan, Trabzon, or beyond \u2014 reach out. Every connection strengthens the bonds of our heritage.',
-    form_name: 'Your Name', form_name_ph: 'Enter your full name',
-    form_email: 'Email Address', form_email_ph: 'Enter your email',
-    form_msg: 'Message', form_msg_ph: 'Share your thoughts, family connections, or inquiries...',
-    form_send: 'Send Message', form_sent: 'Message Sent \u2713',
-    // footer
-    footer_motto: '\u201CIn Unity, Our Strength Endures\u201D',
+    nav_home:'Home', nav_history:'History', nav_family:'Family', nav_gallery:'Gallery', nav_contact:'Contact',
+    hero_subtitle:'Rooted in Ardahan \u00b7 Forged Through Generations', hero_tagline:'Heritage \u00b7 Honor \u00b7 Legacy', hero_origin:'Ardahan \u2014 Trabzon \u2014 Anatolia', hero_discover:'Discover',
+    about_label:'Our Heritage', about_title:'From the Highlands of Ardahan to the World', about_subtitle:'A legacy born in the rugged mountains of northeastern Anatolia, carried across generations with pride and perseverance.',
+    about_h3:'Ardahan & Trabzon \u2014 Our Ancestral Homeland',
+    about_p1:'The Yaldaram family traces its deepest roots to Ardahan, the storied highland province on Turkey\u2019s northeastern frontier. Nestled among the peaks of the Caucasus foothills, Ardahan has long been a crossroads of cultures, empires, and resilient communities. It was here, amid vast plateaus and harsh winters, that the Yaldaram name was first spoken \u2014 carried by a family known for their fortitude and loyalty to their land.',
+    about_p2:'The family\u2019s story is also intertwined with Trabzon, the ancient port city on the Black Sea coast. Trabzon served as a gateway \u2014 a place where mountain families met the wider world, where trade routes from Persia, the Caucasus, and the Mediterranean converged. Through Trabzon, the Yaldarams connected their highland roots with the broader currents of Anatolian life, commerce, and culture.',
+    about_p3:'The coat of arms tells this story in symbols: the radiant sun represents the enduring light of Ardahan\u2019s open skies, the peacock crown speaks to the dignity carried from one generation to the next, and the snowflower on the azure field honors the family\u2019s resilience through the legendary winters of the northeast \u2014 a people shaped by their land, never broken by it.',
+    origin_ardahan:'The ancestral heartland. Ardahan\u2019s high plateaus and fortress ruins echo with the memory of generations past. The family\u2019s values \u2014 endurance, community, honor \u2014 were forged in this unforgiving yet beautiful landscape at the edge of the Caucasus.',
+    origin_trabzon:'The gateway to the world. Trabzon\u2019s ancient harbor connected the highland families of the northeast to the trade and culture of the Black Sea and beyond. For the Yaldarams, Trabzon was where roots met horizon \u2014 a bridge between ancestral soil and new frontiers.',
+    tl_label:'Through the Ages', tl_title:'Our Journey',
+    tl1_year:'Ancestral Roots \u2014 Ardahan', tl1_text:'The earliest known Yaldaram forebears settle in the highlands of Ardahan province, establishing a household bound by the values of the northeastern frontier \u2014 resilience, hospitality, and unwavering family loyalty.',
+    tl2_year:'The Trabzon Connection', tl2_text:'The family extends its reach to Trabzon, the great Black Sea port. Trade, education, and cultural exchange along the coast open new chapters in the Yaldaram story, while the bond to Ardahan remains unbroken.',
+    tl3_year:'The Coat of Arms', tl3_text:'The family crest is formalized \u2014 the radiant sun of Ardahan\u2019s open skies, the peacock crown of ancestral dignity, and the snowflower of northeastern resilience become lasting symbols of Yaldaram identity.',
+    tl4_year:'Migration & Growth', tl4_text:'Branches of the family spread across Turkey and beyond, carrying the spirit of Ardahan and the ambition kindled in Trabzon to new lands. Wherever they go, the Yaldaram name commands respect.',
+    tl5_year:'The Modern Era', tl5_text:'Today, the Yaldaram family thrives across the globe \u2014 a living testament to the enduring strength of Anatolian kinship, shared memory, and a name carried with pride from the highlands of Ardahan to every corner of the world.',
+    fam_label:'Our People', fam_title:'The Yaldaram Family', fam_subtitle:'Each member carries the family legacy forward in their own way, united by the bonds that define us.', fam_empty:'Members will be added soon.',
+    gal_label:'Memories', gal_title:'Family Gallery', gal_subtitle:'Moments captured through the years \u2014 celebrations, gatherings, and the quiet joys of family life.',
+    gal_ph1:'Family Portrait', gal_ph2:'Celebration', gal_ph3:'Heritage', gal_ph4:'Traditions', gal_ph5:'Wedding', gal_ph6:'Homeland', gal_ph7:'Travel', gal_ph8:'Generations',
+    gal_ov1:'Family Portrait \u2014 Ardahan', gal_ov2:'Annual Gathering', gal_ov3:'Ardahan Highlands', gal_ov4:'Trabzon Harbor', gal_ov5:'A Yaldaram Wedding', gal_ov6:'Ancestral Homeland', gal_ov7:'Ka\u00e7kar Mountains', gal_ov8:'Three Generations',
+    con_label:'Get in Touch', con_title:'Reach Out to Us', con_subtitle:'Whether you\u2019re family, friend, or fellow traveler on the path of heritage \u2014 we\u2019d love to hear from you.',
+    con_h3:'Connect With the Family', con_p:'The Yaldaram family welcomes correspondence from relatives near and far, researchers exploring shared ancestry, and friends old and new. Whether your roots lead to Ardahan, Trabzon, or beyond \u2014 reach out. Every connection strengthens the bonds of our heritage.',
+    form_name:'Your Name', form_name_ph:'Enter your full name', form_email:'Email Address', form_email_ph:'Enter your email',
+    form_msg:'Message', form_msg_ph:'Share your thoughts, family connections, or inquiries...', form_send:'Send Message', form_sent:'Message Sent \u2713',
+    footer_motto:'\u201CIn Unity, Our Strength Endures\u201D',
   },
-
   de: {
-    nav_home: 'Startseite', nav_history: 'Geschichte', nav_family: 'Familie', nav_gallery: 'Galerie', nav_contact: 'Kontakt',
-    hero_subtitle: 'Verwurzelt in Ardahan \u2022 Geschmiedet \u00fcber Generationen',
-    hero_tagline: 'Erbe \u2022 Ehre \u2022 Verm\u00e4chtnis',
-    hero_origin: 'Ardahan \u2014 Trabzon \u2014 Anatolien',
-    hero_discover: 'Entdecken',
-    about_label: 'Unser Erbe',
-    about_title: 'Von den Hochebenen Ardahans in die Welt',
-    about_subtitle: 'Ein Verm\u00e4chtnis, geboren in den rauen Bergen Nordostanatoliens, \u00fcber Generationen mit Stolz und Beharrlichkeit weitergetragen.',
-    about_h3: 'Ardahan & Trabzon \u2014 Unsere Urheimat',
-    about_p1: 'Die Familie Yaldaram hat ihre tiefsten Wurzeln in Ardahan, der geschichtstr\u00e4chtigen Hochlandprovinz an der nord\u00f6stlichen Grenze der T\u00fcrkei. Eingebettet zwischen den Gipfeln des Kaukasus-Vorgebirges war Ardahan seit jeher ein Kreuzungspunkt von Kulturen, Reichen und widerstandsf\u00e4higen Gemeinschaften. Hier, inmitten weiter Hochebenen und strenger Winter, wurde der Name Yaldaram zum ersten Mal gesprochen \u2014 getragen von einer Familie, die f\u00fcr ihre Standhaftigkeit und Treue zu ihrem Land bekannt war.',
-    about_p2: 'Die Geschichte der Familie ist auch eng mit Trabzon verbunden, der antiken Hafenstadt an der Schwarzmeerk\u00fcste. Trabzon diente als Tor zur Welt \u2014 ein Ort, an dem Bergfamilien auf die gr\u00f6\u00dfere Welt trafen, wo Handelsrouten aus Persien, dem Kaukasus und dem Mittelmeerraum zusammenliefen. \u00dcber Trabzon verbanden die Yaldarams ihre Hochlandwurzeln mit den breiteren Str\u00f6mungen des anatolischen Lebens, Handels und der Kultur.',
-    about_p3: 'Das Wappen erz\u00e4hlt diese Geschichte in Symbolen: Die strahlende Sonne steht f\u00fcr das best\u00e4ndige Licht des offenen Himmels von Ardahan, die Pfauenkrone spricht von der W\u00fcrde, die von Generation zu Generation weitergegeben wird, und die Schneeblume auf dem azurblauen Feld ehrt die Widerstandskraft der Familie durch die legend\u00e4ren Winter des Nordostens \u2014 ein Volk, geformt von seinem Land, niemals gebrochen.',
-    origin_ardahan: 'Das Herzland der Vorfahren. Ardahans Hochebenen und Festungsruinen hallen wider vom Ged\u00e4chtnis vergangener Generationen. Die Werte der Familie \u2014 Ausdauer, Gemeinschaft, Ehre \u2014 wurden in dieser unbarmherzigen und doch wundersch\u00f6nen Landschaft am Rande des Kaukasus geschmiedet.',
-    origin_trabzon: 'Das Tor zur Welt. Trabzons antiker Hafen verband die Hochlandfamilien des Nordostens mit dem Handel und der Kultur des Schwarzen Meeres und dar\u00fcber hinaus. F\u00fcr die Yaldarams war Trabzon der Ort, an dem Wurzeln auf den Horizont trafen \u2014 eine Br\u00fccke zwischen heimatlichem Boden und neuen Grenzen.',
-    tl1_year: 'Urahnen \u2014 Ardahan', tl1_text: 'Die fr\u00fchesten bekannten Vorfahren der Yaldarams lassen sich im Hochland der Provinz Ardahan nieder und gr\u00fcnden einen Haushalt, der den Werten der nord\u00f6stlichen Grenze verpflichtet ist \u2014 Widerstandskraft, Gastfreundschaft und unerschütterliche Familientreue.',
-    tl2_year: 'Die Verbindung zu Trabzon', tl2_text: 'Die Familie erweitert ihren Einfluss nach Trabzon, dem gro\u00dfen Schwarzmeerhafen. Handel, Bildung und kultureller Austausch entlang der K\u00fcste er\u00f6ffnen neue Kapitel in der Geschichte der Yaldarams, w\u00e4hrend die Bindung an Ardahan ungebrochen bleibt.',
-    tl3_year: 'Das Familienwappen', tl3_text: 'Das Familienwappen wird formalisiert \u2014 die strahlende Sonne des offenen Himmels von Ardahan, die Pfauenkrone der Ahnenw\u00fcrde und die Schneeblume der nord\u00f6stlichen Widerstandskraft werden zu bleibenden Symbolen der Yaldaram-Identit\u00e4t.',
-    tl4_year: 'Migration & Wachstum', tl4_text: 'Zweige der Familie verbreiten sich \u00fcber die T\u00fcrkei und dar\u00fcber hinaus und tragen den Geist Ardahans und den in Trabzon entfachten Ehrgeiz in neue L\u00e4nder. Wohin sie auch gehen, der Name Yaldaram gebietet Respekt.',
-    tl5_year: 'Die Moderne', tl5_text: 'Heute bl\u00fcht die Familie Yaldaram auf der ganzen Welt \u2014 ein lebendiges Zeugnis der best\u00e4ndigen St\u00e4rke anatolischer Verwandtschaft, geteilter Erinnerung und eines Namens, der mit Stolz von den Hochebenen Ardahans in jeden Winkel der Welt getragen wird.',
-    fam_label: 'Unsere Menschen', fam_title: 'Die Familie Yaldaram', fam_subtitle: 'Jedes Mitglied tr\u00e4gt das Familienerbe auf seine eigene Weise weiter, vereint durch die Bande, die uns ausmachen.',
-    fam_empty: 'Mitglieder werden bald hinzugef\u00fcgt.',
-    gal_label: 'Erinnerungen', gal_title: 'Familiengalerie', gal_subtitle: 'Momente, festgehalten \u00fcber die Jahre \u2014 Feste, Zusammenk\u00fcnfte und die stillen Freuden des Familienlebens.',
-    gal_ph1: 'Familienportr\u00e4t', gal_ph2: 'Feier', gal_ph3: 'Kulturerbe', gal_ph4: 'Traditionen', gal_ph5: 'Hochzeit', gal_ph6: 'Heimat', gal_ph7: 'Reise', gal_ph8: 'Generationen',
-    gal_ov1: 'Familienportr\u00e4t \u2014 Ardahan', gal_ov2: 'J\u00e4hrliches Treffen', gal_ov3: 'Ardahan Hochland', gal_ov4: 'Hafen von Trabzon', gal_ov5: 'Eine Yaldaram-Hochzeit', gal_ov6: 'Urheimat', gal_ov7: 'Ka\u00e7kar-Gebirge', gal_ov8: 'Drei Generationen',
-    con_label: 'Kontakt', con_title: 'Schreiben Sie uns', con_subtitle: 'Ob Familie, Freund oder Mitreisender auf dem Weg des Erbes \u2014 wir freuen uns, von Ihnen zu h\u00f6ren.',
-    con_h3: 'Verbinden Sie sich mit der Familie',
-    con_p: 'Die Familie Yaldaram hei\u00dft Korrespondenz von Verwandten nah und fern, Forschern gemeinsamer Abstammung und alten wie neuen Freunden willkommen. Ob Ihre Wurzeln nach Ardahan, Trabzon oder dar\u00fcber hinaus f\u00fchren \u2014 nehmen Sie Kontakt auf. Jede Verbindung st\u00e4rkt die Bande unseres Erbes.',
-    form_name: 'Ihr Name', form_name_ph: 'Geben Sie Ihren vollst\u00e4ndigen Namen ein',
-    form_email: 'E-Mail-Adresse', form_email_ph: 'Geben Sie Ihre E-Mail ein',
-    form_msg: 'Nachricht', form_msg_ph: 'Teilen Sie Ihre Gedanken, Familienverbindungen oder Anfragen...',
-    form_send: 'Nachricht senden', form_sent: 'Nachricht gesendet \u2713',
-    footer_motto: '\u201EIn Einheit best\u00e4ndig unsere St\u00e4rke\u201C',
+    nav_home:'Startseite', nav_history:'Geschichte', nav_family:'Familie', nav_gallery:'Galerie', nav_contact:'Kontakt',
+    hero_subtitle:'Verwurzelt in Ardahan \u00b7 Geschmiedet \u00fcber Generationen', hero_tagline:'Erbe \u00b7 Ehre \u00b7 Verm\u00e4chtnis', hero_origin:'Ardahan \u2014 Trabzon \u2014 Anatolien', hero_discover:'Entdecken',
+    about_label:'Unser Erbe', about_title:'Von den Hochebenen Ardahans in die Welt', about_subtitle:'Ein Verm\u00e4chtnis, geboren in den rauen Bergen Nordostanatoliens, \u00fcber Generationen mit Stolz und Beharrlichkeit weitergetragen.',
+    about_h3:'Ardahan & Trabzon \u2014 Unsere Urheimat',
+    about_p1:'Die Familie Yaldaram hat ihre tiefsten Wurzeln in Ardahan, der geschichtstr\u00e4chtigen Hochlandprovinz an der nord\u00f6stlichen Grenze der T\u00fcrkei. Eingebettet zwischen den Gipfeln des Kaukasus-Vorgebirges war Ardahan seit jeher ein Kreuzungspunkt von Kulturen, Reichen und widerstandsf\u00e4higen Gemeinschaften. Hier, inmitten weiter Hochebenen und strenger Winter, wurde der Name Yaldaram zum ersten Mal gesprochen \u2014 getragen von einer Familie, die f\u00fcr ihre Standhaftigkeit und Treue zu ihrem Land bekannt war.',
+    about_p2:'Die Geschichte der Familie ist auch eng mit Trabzon verbunden, der antiken Hafenstadt an der Schwarzmeerk\u00fcste. Trabzon diente als Tor zur Welt \u2014 ein Ort, an dem Bergfamilien auf die gr\u00f6\u00dfere Welt trafen, wo Handelsrouten aus Persien, dem Kaukasus und dem Mittelmeerraum zusammenliefen. \u00dcber Trabzon verbanden die Yaldarams ihre Hochlandwurzeln mit den breiteren Str\u00f6mungen des anatolischen Lebens, Handels und der Kultur.',
+    about_p3:'Das Wappen erz\u00e4hlt diese Geschichte in Symbolen: Die strahlende Sonne steht f\u00fcr das best\u00e4ndige Licht des offenen Himmels von Ardahan, die Pfauenkrone spricht von der W\u00fcrde, die von Generation zu Generation weitergegeben wird, und die Schneeblume auf dem azurblauen Feld ehrt die Widerstandskraft der Familie durch die legend\u00e4ren Winter des Nordostens \u2014 ein Volk, geformt von seinem Land, niemals gebrochen.',
+    origin_ardahan:'Das Herzland der Vorfahren. Ardahans Hochebenen und Festungsruinen hallen wider vom Ged\u00e4chtnis vergangener Generationen. Die Werte der Familie \u2014 Ausdauer, Gemeinschaft, Ehre \u2014 wurden in dieser unbarmherzigen und doch wundersch\u00f6nen Landschaft am Rande des Kaukasus geschmiedet.',
+    origin_trabzon:'Das Tor zur Welt. Trabzons antiker Hafen verband die Hochlandfamilien des Nordostens mit dem Handel und der Kultur des Schwarzen Meeres und dar\u00fcber hinaus. F\u00fcr die Yaldarams war Trabzon der Ort, an dem Wurzeln auf den Horizont trafen \u2014 eine Br\u00fccke zwischen heimatlichem Boden und neuen Grenzen.',
+    tl_label:'\u00dcber die Zeiten', tl_title:'Unsere Reise',
+    tl1_year:'Urahnen \u2014 Ardahan', tl1_text:'Die fr\u00fchesten bekannten Vorfahren der Yaldarams lassen sich im Hochland der Provinz Ardahan nieder und gr\u00fcnden einen Haushalt, der den Werten der nord\u00f6stlichen Grenze verpflichtet ist \u2014 Widerstandskraft, Gastfreundschaft und unersch\u00fctterliche Familientreue.',
+    tl2_year:'Die Verbindung zu Trabzon', tl2_text:'Die Familie erweitert ihren Einfluss nach Trabzon, dem gro\u00dfen Schwarzmeerhafen. Handel, Bildung und kultureller Austausch entlang der K\u00fcste er\u00f6ffnen neue Kapitel in der Geschichte der Yaldarams, w\u00e4hrend die Bindung an Ardahan ungebrochen bleibt.',
+    tl3_year:'Das Familienwappen', tl3_text:'Das Familienwappen wird formalisiert \u2014 die strahlende Sonne des offenen Himmels von Ardahan, die Pfauenkrone der Ahnenw\u00fcrde und die Schneeblume der nord\u00f6stlichen Widerstandskraft werden zu bleibenden Symbolen der Yaldaram-Identit\u00e4t.',
+    tl4_year:'Migration & Wachstum', tl4_text:'Zweige der Familie verbreiten sich \u00fcber die T\u00fcrkei und dar\u00fcber hinaus und tragen den Geist Ardahans und den in Trabzon entfachten Ehrgeiz in neue L\u00e4nder. Wohin sie auch gehen, der Name Yaldaram gebietet Respekt.',
+    tl5_year:'Die Moderne', tl5_text:'Heute bl\u00fcht die Familie Yaldaram auf der ganzen Welt \u2014 ein lebendiges Zeugnis der best\u00e4ndigen St\u00e4rke anatolischer Verwandtschaft, geteilter Erinnerung und eines Namens, der mit Stolz von den Hochebenen Ardahans in jeden Winkel der Welt getragen wird.',
+    fam_label:'Unsere Menschen', fam_title:'Die Familie Yaldaram', fam_subtitle:'Jedes Mitglied tr\u00e4gt das Familienerbe auf seine eigene Weise weiter, vereint durch die Bande, die uns ausmachen.', fam_empty:'Mitglieder werden bald hinzugef\u00fcgt.',
+    gal_label:'Erinnerungen', gal_title:'Familiengalerie', gal_subtitle:'Momente, festgehalten \u00fcber die Jahre \u2014 Feste, Zusammenk\u00fcnfte und die stillen Freuden des Familienlebens.',
+    gal_ph1:'Familienportr\u00e4t', gal_ph2:'Feier', gal_ph3:'Kulturerbe', gal_ph4:'Traditionen', gal_ph5:'Hochzeit', gal_ph6:'Heimat', gal_ph7:'Reise', gal_ph8:'Generationen',
+    gal_ov1:'Familienportr\u00e4t \u2014 Ardahan', gal_ov2:'J\u00e4hrliches Treffen', gal_ov3:'Ardahan Hochland', gal_ov4:'Hafen von Trabzon', gal_ov5:'Eine Yaldaram-Hochzeit', gal_ov6:'Urheimat', gal_ov7:'Ka\u00e7kar-Gebirge', gal_ov8:'Drei Generationen',
+    con_label:'Kontakt', con_title:'Schreiben Sie uns', con_subtitle:'Ob Familie, Freund oder Mitreisender auf dem Weg des Erbes \u2014 wir freuen uns, von Ihnen zu h\u00f6ren.',
+    con_h3:'Verbinden Sie sich mit der Familie', con_p:'Die Familie Yaldaram hei\u00dft Korrespondenz von Verwandten nah und fern, Forschern gemeinsamer Abstammung und alten wie neuen Freunden willkommen. Ob Ihre Wurzeln nach Ardahan, Trabzon oder dar\u00fcber hinaus f\u00fchren \u2014 nehmen Sie Kontakt auf. Jede Verbindung st\u00e4rkt die Bande unseres Erbes.',
+    form_name:'Ihr Name', form_name_ph:'Geben Sie Ihren vollst\u00e4ndigen Namen ein', form_email:'E-Mail-Adresse', form_email_ph:'Geben Sie Ihre E-Mail ein',
+    form_msg:'Nachricht', form_msg_ph:'Teilen Sie Ihre Gedanken, Familienverbindungen oder Anfragen...', form_send:'Nachricht senden', form_sent:'Nachricht gesendet \u2713',
+    footer_motto:'\u201EIn Einheit best\u00e4ndig unsere St\u00e4rke\u201C',
   },
-
   tr: {
-    nav_home: 'Ana Sayfa', nav_history: 'Tarih\u00e7e', nav_family: 'Aile', nav_gallery: 'Galeri', nav_contact: '\u0130leti\u015fim',
-    hero_subtitle: 'K\u00f6kleri Ardahan\u2019da \u2022 Nesillerle Y\u00fckselen',
-    hero_tagline: 'Miras \u2022 Onur \u2022 Sadakat',
-    hero_origin: 'Ardahan \u2014 Trabzon \u2014 Anadolu',
-    hero_discover: 'Ke\u015ffet',
-    about_label: 'Mirasimiz',
-    about_title: 'Ardahan Yaylalar\u0131ndan D\u00fcnyaya',
-    about_subtitle: 'Kuzeydogu Anadolu\u2019nun sarp daglar\u0131nda dogan, nesillerden nesillere gurur ve azimle ta\u015f\u0131nan bir miras.',
-    about_h3: 'Ardahan ve Trabzon \u2014 Ata Yurdumuz',
-    about_p1: 'Yaldaram ailesi en derin k\u00f6klerini, T\u00fcrkiye\u2019nin kuzeydogu s\u0131n\u0131r\u0131ndaki tarihi yayla ili Ardahan\u2019a dayand\u0131r\u0131r. Kafkas daglar\u0131n\u0131n eteklerinde, ucsuz bucaks\u0131z yaylalar\u0131n ve sert k\u0131\u015flar\u0131n aras\u0131nda Yaldaram ad\u0131 ilk kez burada duyuldu \u2014 topraklar\u0131na olan sadakatleri ve dayan\u0131kl\u0131l\u0131klar\u0131yla bilinen bir ailenin ad\u0131 olarak.',
-    about_p2: 'Ailenin hikayesi ayn\u0131 zamanda Karadeniz k\u0131y\u0131s\u0131ndaki kadim liman \u015fehri Trabzon ile i\u00e7 i\u00e7edir. Trabzon bir ge\u00e7it kap\u0131s\u0131yd\u0131 \u2014 dag ailelerinin geni\u015f d\u00fcnyayla bulu\u015ftugu, \u0130ran\u2019dan, Kafkasya\u2019dan ve Akdeniz\u2019den gelen ticaret yollar\u0131n\u0131n kesi\u015ftigi bir yer. Yaldaramlar, Trabzon arac\u0131l\u0131g\u0131yla yayla k\u00f6klerini Anadolu ya\u015fam\u0131n\u0131n, ticaretinin ve k\u00fclt\u00fcr\u00fcn\u00fcn daha geni\u015f ak\u0131mlar\u0131na bagladılar.',
-    about_p3: 'Arma bu hikayeyi sembollerle anlat\u0131r: parlayan g\u00fcne\u015f, Ardahan\u2019\u0131n a\u00e7\u0131k g\u00f6klerinin s\u00f6nmeyen \u0131\u015f\u0131g\u0131n\u0131; tavus ku\u015fu ta\u00e7l\u0131 mig\u0301fer, nesilden nesile ta\u015f\u0131nan asaleti; masmavi zemin \u00fczerindeki kar \u00e7i\u00e7egi ise ailenin kuzeydogunun efsanevi k\u0131\u015flar\u0131na kars\u0131 direni\u015fini simgeler \u2014 topraklar\u0131 taraf\u0131ndan \u015fekillendirilen, asla k\u0131r\u0131lmayan bir halk.',
-    origin_ardahan: 'Atalar\u0131n kalbi. Ardahan\u2019\u0131n y\u00fcksek yaylalar\u0131 ve kale kal\u0131nt\u0131lar\u0131, ge\u00e7mi\u015f nesillerin hat\u0131ras\u0131yla yank\u0131lan\u0131r. Ailenin degerleri \u2014 dayan\u0131kl\u0131l\u0131k, topluluk, onur \u2014 Kafkasya s\u0131n\u0131r\u0131ndaki bu ac\u0131mas\u0131z ama g\u00fczel cografyada \u015fekillendi.',
-    origin_trabzon: 'D\u00fcnyaya a\u00e7\u0131lan kap\u0131. Trabzon\u2019un kadim liman\u0131, kuzeydogunun yayla ailelerini Karadeniz\u2019in ve \u00f6tesinin ticareti ve k\u00fclt\u00fcr\u00fcyle bulu\u015fturdu. Yaldaramlar i\u00e7in Trabzon, k\u00f6klerin ufukla bulu\u015ftugu yer \u2014 ata toprag\u0131 ile yeni s\u0131n\u0131rlar aras\u0131ndaki k\u00f6pr\u00fcyd\u00fc.',
-    tl1_year: 'Ata K\u00f6kleri \u2014 Ardahan', tl1_text: 'Bilinen en eski Yaldaram ecdad\u0131 Ardahan ilinin yaylalar\u0131na yerle\u015fir ve kuzeydogu s\u0131n\u0131r\u0131n\u0131n degerlerine bagl\u0131 bir hane kurar \u2014 dayan\u0131kl\u0131l\u0131k, misafirperverlik ve sars\u0131lmaz aile sadakati.',
-    tl2_year: 'Trabzon Baglant\u0131s\u0131', tl2_text: 'Aile etkisini b\u00fcy\u00fck Karadeniz liman\u0131 Trabzon\u2019a geni\u015fletir. K\u0131y\u0131 boyunca ticaret, egitim ve k\u00fclt\u00fcrel de\u011fi\u015fim, Yaldaram hikayesinde yeni b\u00f6l\u00fcmler a\u00e7arken Ardahan bagl\u0131l\u0131g\u0131 k\u0131r\u0131lmaz kal\u0131r.',
-    tl3_year: 'Aile Armas\u0131', tl3_text: 'Aile armas\u0131 resmile\u015ftirilir \u2014 Ardahan\u2019\u0131n a\u00e7\u0131k g\u00f6klerinin parlayan g\u00fcne\u015fi, ecdad asaletinin tavus ku\u015fu ta\u00e7l\u0131 migferi ve kuzeydogu direni\u015finin kar \u00e7i\u00e7egi, Yaldaram kimliginin kal\u0131c\u0131 sembolleri olur.',
-    tl4_year: 'G\u00f6\u00e7 ve B\u00fcy\u00fcme', tl4_text: 'Ailenin dallar\u0131 T\u00fcrkiye\u2019ye ve \u00f6tesine yay\u0131l\u0131r; Ardahan\u2019\u0131n ruhunu ve Trabzon\u2019da tutu\u015fan azmi yeni topraklara ta\u015f\u0131rlar. Nereye giderlerse gitsinler, Yaldaram ad\u0131 sayg\u0131 uyand\u0131r\u0131r.',
-    tl5_year: 'Modern \u00c7ag', tl5_text: 'Bug\u00fcn Yaldaram ailesi d\u00fcnyan\u0131n d\u00f6rt bir yan\u0131nda g\u00fc\u00e7l\u00fc bir \u015fekilde ya\u015famaya devam ediyor \u2014 Anadolu akrabal\u0131g\u0131n\u0131n, payla\u015f\u0131lan hat\u0131ralar\u0131n ve Ardahan yaylalar\u0131ndan d\u00fcnyan\u0131n her k\u00f6\u015fesine gururla ta\u015f\u0131nan bir ad\u0131n s\u00f6nmez g\u00fcc\u00fcn\u00fcn canl\u0131 kan\u0131t\u0131.',
-    fam_label: '\u0130nsanlar\u0131m\u0131z', fam_title: 'Yaldaram Ailesi', fam_subtitle: 'Her \u00fcye aile miras\u0131n\u0131 kendi yoluyla ileriye ta\u015f\u0131r, bizi tan\u0131mlayan baglarla birle\u015fmi\u015f olarak.',
-    fam_empty: '\u00dcyeler yak\u0131nda eklenecektir.',
-    gal_label: 'An\u0131lar', gal_title: 'Aile Galerisi', gal_subtitle: 'Y\u0131llar boyunca kaydedilen anlar \u2014 kutlamalar, bulu\u015fmalar ve aile ya\u015fam\u0131n\u0131n sessiz mutluluklar\u0131.',
-    gal_ph1: 'Aile Portresi', gal_ph2: 'Kutlama', gal_ph3: 'K\u00fclt\u00fcrel Miras', gal_ph4: 'Gelenekler', gal_ph5: 'D\u00fc\u011f\u00fcn', gal_ph6: 'Memleket', gal_ph7: 'Seyahat', gal_ph8: 'Nesiller',
-    gal_ov1: 'Aile Portresi \u2014 Ardahan', gal_ov2: 'Y\u0131ll\u0131k Bulu\u015fma', gal_ov3: 'Ardahan Yaylalar\u0131', gal_ov4: 'Trabzon Liman\u0131', gal_ov5: 'Bir Yaldaram D\u00fc\u011f\u00fcn\u00fc', gal_ov6: 'Ata Yurdu', gal_ov7: 'Ka\u00e7kar Daglar\u0131', gal_ov8: '\u00dc\u00e7 Nesil',
-    con_label: '\u0130leti\u015fim', con_title: 'Bize Ula\u015f\u0131n', con_subtitle: '\u0130ster aile, ister dost, ister miras yolcusu olun \u2014 sizden haber almaktan mutluluk duyar\u0131z.',
-    con_h3: 'Aileyle Baglant\u0131 Kurun',
-    con_p: 'Yaldaram ailesi yak\u0131n ve uzak akrabalar\u0131n, ortak soy ara\u015ft\u0131rmac\u0131lar\u0131n\u0131n ve eski-yeni dostlar\u0131n yaz\u0131\u015fmalar\u0131n\u0131 memnuniyetle kar\u015f\u0131lar. K\u00f6kleriniz Ardahan\u2019a, Trabzon\u2019a veya daha \u00f6tesine uzans\u0131n \u2014 ula\u015f\u0131n. Her baglant\u0131, miras\u0131m\u0131z\u0131n baglar\u0131n\u0131 g\u00fc\u00e7lendirir.',
-    form_name: 'Ad\u0131n\u0131z', form_name_ph: 'Ad\u0131n\u0131z\u0131 ve soyad\u0131n\u0131z\u0131 girin',
-    form_email: 'E-posta Adresi', form_email_ph: 'E-posta adresinizi girin',
-    form_msg: 'Mesaj', form_msg_ph: 'D\u00fc\u015f\u00fcncelerinizi, aile baglar\u0131n\u0131z\u0131 veya sorular\u0131n\u0131z\u0131 payla\u015f\u0131n...',
-    form_send: 'Mesaj G\u00f6nder', form_sent: 'Mesaj G\u00f6nderildi \u2713',
-    footer_motto: '\u201CBirlikte, G\u00fcc\u00fcm\u00fcz Daimd\u0131r\u201D',
+    nav_home:'Ana Sayfa', nav_history:'Tarih\u00e7e', nav_family:'Aile', nav_gallery:'Galeri', nav_contact:'\u0130leti\u015fim',
+    hero_subtitle:'K\u00f6kleri Ardahan\u2019da \u00b7 Nesillerle Y\u00fckselen', hero_tagline:'Miras \u00b7 Onur \u00b7 Sadakat', hero_origin:'Ardahan \u2014 Trabzon \u2014 Anadolu', hero_discover:'Ke\u015ffet',
+    about_label:'Miras\u0131m\u0131z', about_title:'Ardahan Yaylalar\u0131ndan D\u00fcnyaya', about_subtitle:'Kuzeydogu Anadolu\u2019nun sarp daglar\u0131nda dogan, nesillerden nesillere gurur ve azimle ta\u015f\u0131nan bir miras.',
+    about_h3:'Ardahan ve Trabzon \u2014 Ata Yurdumuz',
+    about_p1:'Yaldaram ailesi en derin k\u00f6klerini, T\u00fcrkiye\u2019nin kuzeydogu s\u0131n\u0131r\u0131ndaki tarihi yayla ili Ardahan\u2019a dayand\u0131r\u0131r. Kafkas daglar\u0131n\u0131n eteklerinde, ucsuz bucaks\u0131z yaylalar\u0131n ve sert k\u0131\u015flar\u0131n aras\u0131nda Yaldaram ad\u0131 ilk kez burada duyuldu \u2014 topraklar\u0131na olan sadakatleri ve dayan\u0131kl\u0131l\u0131klar\u0131yla bilinen bir ailenin ad\u0131 olarak.',
+    about_p2:'Ailenin hikayesi ayn\u0131 zamanda Karadeniz k\u0131y\u0131s\u0131ndaki kadim liman \u015fehri Trabzon ile i\u00e7 i\u00e7edir. Trabzon bir ge\u00e7it kap\u0131s\u0131yd\u0131 \u2014 dag ailelerinin geni\u015f d\u00fcnyayla bulu\u015ftugu, \u0130ran\u2019dan, Kafkasya\u2019dan ve Akdeniz\u2019den gelen ticaret yollar\u0131n\u0131n kesi\u015ftigi bir yer. Yaldaramlar, Trabzon arac\u0131l\u0131g\u0131yla yayla k\u00f6klerini Anadolu ya\u015fam\u0131n\u0131n, ticaretinin ve k\u00fclt\u00fcr\u00fcn\u00fcn daha geni\u015f ak\u0131mlar\u0131na baglad\u0131lar.',
+    about_p3:'Arma bu hikayeyi sembollerle anlat\u0131r: parlayan g\u00fcne\u015f, Ardahan\u2019\u0131n a\u00e7\u0131k g\u00f6klerinin s\u00f6nmeyen \u0131\u015f\u0131g\u0131n\u0131; tavus ku\u015fu ta\u00e7l\u0131 migfer, nesilden nesile ta\u015f\u0131nan asaleti; masmavi zemin \u00fczerindeki kar \u00e7i\u00e7egi ise ailenin kuzeydogunun efsanevi k\u0131\u015flar\u0131na kar\u015f\u0131 direni\u015fini simgeler \u2014 topraklar\u0131 taraf\u0131ndan \u015fekillendirilen, asla k\u0131r\u0131lmayan bir halk.',
+    origin_ardahan:'Atalar\u0131n kalbi. Ardahan\u2019\u0131n y\u00fcksek yaylalar\u0131 ve kale kal\u0131nt\u0131lar\u0131, ge\u00e7mi\u015f nesillerin hat\u0131ras\u0131yla yank\u0131lan\u0131r. Ailenin degerleri \u2014 dayan\u0131kl\u0131l\u0131k, topluluk, onur \u2014 Kafkasya s\u0131n\u0131r\u0131ndaki bu ac\u0131mas\u0131z ama g\u00fczel cografyada \u015fekillendi.',
+    origin_trabzon:'D\u00fcnyaya a\u00e7\u0131lan kap\u0131. Trabzon\u2019un kadim liman\u0131, kuzeydogunun yayla ailelerini Karadeniz\u2019in ve \u00f6tesinin ticareti ve k\u00fclt\u00fcr\u00fcyle bulu\u015fturdu. Yaldaramlar i\u00e7in Trabzon, k\u00f6klerin ufukla bulu\u015ftugu yer \u2014 ata toprag\u0131 ile yeni s\u0131n\u0131rlar aras\u0131ndaki k\u00f6pr\u00fcyd\u00fc.',
+    tl_label:'\u00c7aglar Boyunca', tl_title:'Yolculugumuz',
+    tl1_year:'Ata K\u00f6kleri \u2014 Ardahan', tl1_text:'Bilinen en eski Yaldaram ecdad\u0131 Ardahan ilinin yaylalar\u0131na yerle\u015fir ve kuzeydogu s\u0131n\u0131r\u0131n\u0131n degerlerine bagl\u0131 bir hane kurar \u2014 dayan\u0131kl\u0131l\u0131k, misafirperverlik ve sars\u0131lmaz aile sadakati.',
+    tl2_year:'Trabzon Baglant\u0131s\u0131', tl2_text:'Aile etkisini b\u00fcy\u00fck Karadeniz liman\u0131 Trabzon\u2019a geni\u015fletir. K\u0131y\u0131 boyunca ticaret, egitim ve k\u00fclt\u00fcrel degisim, Yaldaram hikayesinde yeni b\u00f6l\u00fcmler a\u00e7arken Ardahan bagl\u0131l\u0131g\u0131 k\u0131r\u0131lmaz kal\u0131r.',
+    tl3_year:'Aile Armas\u0131', tl3_text:'Aile armas\u0131 resmile\u015ftirilir \u2014 Ardahan\u2019\u0131n a\u00e7\u0131k g\u00f6klerinin parlayan g\u00fcne\u015fi, ecdad asaletinin tavus ku\u015fu ta\u00e7l\u0131 migferi ve kuzeydogu direni\u015finin kar \u00e7i\u00e7egi, Yaldaram kimliginin kal\u0131c\u0131 sembolleri olur.',
+    tl4_year:'G\u00f6\u00e7 ve B\u00fcy\u00fcme', tl4_text:'Ailenin dallar\u0131 T\u00fcrkiye\u2019ye ve \u00f6tesine yay\u0131l\u0131r; Ardahan\u2019\u0131n ruhunu ve Trabzon\u2019da tutu\u015fan azmi yeni topraklara ta\u015f\u0131rlar. Nereye giderlerse gitsinler, Yaldaram ad\u0131 sayg\u0131 uyand\u0131r\u0131r.',
+    tl5_year:'Modern \u00c7ag', tl5_text:'Bug\u00fcn Yaldaram ailesi d\u00fcnyan\u0131n d\u00f6rt bir yan\u0131nda g\u00fc\u00e7l\u00fc bir \u015fekilde ya\u015famaya devam ediyor \u2014 Anadolu akrabal\u0131g\u0131n\u0131n, payla\u015f\u0131lan hat\u0131ralar\u0131n ve Ardahan yaylalar\u0131ndan d\u00fcnyan\u0131n her k\u00f6\u015fesine gururla ta\u015f\u0131nan bir ad\u0131n s\u00f6nmez g\u00fcc\u00fcn\u00fcn canl\u0131 kan\u0131t\u0131.',
+    fam_label:'\u0130nsanlar\u0131m\u0131z', fam_title:'Yaldaram Ailesi', fam_subtitle:'Her \u00fcye aile miras\u0131n\u0131 kendi yoluyla ileriye ta\u015f\u0131r, bizi tan\u0131mlayan baglarla birle\u015fmi\u015f olarak.', fam_empty:'\u00dcyeler yak\u0131nda eklenecektir.',
+    gal_label:'An\u0131lar', gal_title:'Aile Galerisi', gal_subtitle:'Y\u0131llar boyunca kaydedilen anlar \u2014 kutlamalar, bulu\u015fmalar ve aile ya\u015fam\u0131n\u0131n sessiz mutluluklar\u0131.',
+    gal_ph1:'Aile Portresi', gal_ph2:'Kutlama', gal_ph3:'K\u00fclt\u00fcrel Miras', gal_ph4:'Gelenekler', gal_ph5:'D\u00fc\u011f\u00fcn', gal_ph6:'Memleket', gal_ph7:'Seyahat', gal_ph8:'Nesiller',
+    gal_ov1:'Aile Portresi \u2014 Ardahan', gal_ov2:'Y\u0131ll\u0131k Bulu\u015fma', gal_ov3:'Ardahan Yaylalar\u0131', gal_ov4:'Trabzon Liman\u0131', gal_ov5:'Bir Yaldaram D\u00fc\u011f\u00fcn\u00fc', gal_ov6:'Ata Yurdu', gal_ov7:'Ka\u00e7kar Daglar\u0131', gal_ov8:'\u00dc\u00e7 Nesil',
+    con_label:'\u0130leti\u015fim', con_title:'Bize Ula\u015f\u0131n', con_subtitle:'\u0130ster aile, ister dost, ister miras yolcusu olun \u2014 sizden haber almaktan mutluluk duyar\u0131z.',
+    con_h3:'Aileyle Baglant\u0131 Kurun', con_p:'Yaldaram ailesi yak\u0131n ve uzak akrabalar\u0131n, ortak soy ara\u015ft\u0131rmac\u0131lar\u0131n\u0131n ve eski-yeni dostlar\u0131n yaz\u0131\u015fmalar\u0131n\u0131 memnuniyetle kar\u015f\u0131lar. K\u00f6kleriniz Ardahan\u2019a, Trabzon\u2019a veya daha \u00f6tesine uzans\u0131n \u2014 ula\u015f\u0131n. Her baglant\u0131, miras\u0131m\u0131z\u0131n baglar\u0131n\u0131 g\u00fc\u00e7lendirir.',
+    form_name:'Ad\u0131n\u0131z', form_name_ph:'Ad\u0131n\u0131z\u0131 ve soyad\u0131n\u0131z\u0131 girin', form_email:'E-posta Adresi', form_email_ph:'E-posta adresinizi girin',
+    form_msg:'Mesaj', form_msg_ph:'D\u00fc\u015f\u00fcncelerinizi, aile baglar\u0131n\u0131z\u0131 veya sorular\u0131n\u0131z\u0131 payla\u015f\u0131n...', form_send:'Mesaj G\u00f6nder', form_sent:'Mesaj G\u00f6nderildi \u2713',
+    footer_motto:'\u201CBirlikte, G\u00fcc\u00fcm\u00fcz Daimd\u0131r\u201D',
   }
 };
 
 /* ══════════════════════════════════════════
-   I18N ENGINE
+   I18N
    ══════════════════════════════════════════ */
 let currentLang = localStorage.getItem('yaldaram-lang') || 'en';
-
 function setLang(lang) {
   currentLang = lang;
   localStorage.setItem('yaldaram-lang', lang);
   document.documentElement.lang = lang;
-
-  // update all [data-i18n] text content
   document.querySelectorAll('[data-i18n]').forEach(el => {
-    const key = el.getAttribute('data-i18n');
-    if (T[lang] && T[lang][key] != null) {
-      el.textContent = T[lang][key];
-    }
+    const k = el.getAttribute('data-i18n');
+    if (T[lang]?.[k] != null) el.textContent = T[lang][k];
   });
-
-  // update placeholders
   document.querySelectorAll('[data-i18n-placeholder]').forEach(el => {
-    const key = el.getAttribute('data-i18n-placeholder');
-    if (T[lang] && T[lang][key] != null) {
-      el.placeholder = T[lang][key];
-    }
+    const k = el.getAttribute('data-i18n-placeholder');
+    if (T[lang]?.[k] != null) el.placeholder = T[lang][k];
   });
-
-  // update active button
-  document.querySelectorAll('.lang-btn').forEach(btn => {
-    btn.classList.toggle('active', btn.dataset.lang === lang);
-  });
-
-  // update page title
-  const titles = {
-    en: 'House of Yaldaram \u2014 Heritage \u2022 Honor \u2022 Legacy',
-    de: 'Haus Yaldaram \u2014 Erbe \u2022 Ehre \u2022 Verm\u00e4chtnis',
-    tr: 'Yaldaram Hanedanı \u2014 Miras \u2022 Onur \u2022 Sadakat'
-  };
+  document.querySelectorAll('.lang-btn').forEach(b => b.classList.toggle('active', b.dataset.lang === lang));
+  const titles = { en:'House of Yaldaram \u2014 Heritage \u00b7 Honor \u00b7 Legacy', de:'Haus Yaldaram \u2014 Erbe \u00b7 Ehre \u00b7 Verm\u00e4chtnis', tr:'Yaldaram Hanedan\u0131 \u2014 Miras \u00b7 Onur \u00b7 Sadakat' };
   document.title = titles[lang] || titles.en;
 }
-
-// init language on load
-document.addEventListener('DOMContentLoaded', () => setLang(currentLang));
-
-// language button clicks
-document.querySelectorAll('.lang-btn').forEach(btn => {
-  btn.addEventListener('click', () => setLang(btn.dataset.lang));
-});
+setLang(currentLang);
+document.querySelectorAll('.lang-btn').forEach(b => b.addEventListener('click', () => setLang(b.dataset.lang)));
 
 /* ══════════════════════════════════════════
-   NAVIGATION — scroll & mobile
+   PRELOADER — simple timer, no load dependency
+   ══════════════════════════════════════════ */
+const preloaderTextEl = document.getElementById('preloaderText');
+'YALDARAM'.split('').forEach((ch, i) => {
+  const span = document.createElement('span');
+  span.textContent = ch;
+  span.style.animationDelay = `${0.8 + i * 0.08}s`;
+  preloaderTextEl.appendChild(span);
+});
+setTimeout(() => {
+  document.getElementById('preloader').classList.add('done');
+  startHeroAnimation();
+}, 2600);
+
+/* ══════════════════════════════════════════
+   DETECT GSAP
+   ══════════════════════════════════════════ */
+const hasGSAP = typeof gsap !== 'undefined' && typeof ScrollTrigger !== 'undefined';
+const hasLenis = typeof Lenis !== 'undefined';
+
+/* ══════════════════════════════════════════
+   LENIS SMOOTH SCROLL
+   ══════════════════════════════════════════ */
+if (hasLenis && hasGSAP) {
+  try {
+    const lenis = new Lenis({ duration: 1.2, easing: t => Math.min(1, 1.001 - Math.pow(2, -10 * t)), touchMultiplier: 1.5 });
+    lenis.on('scroll', ScrollTrigger.update);
+    gsap.ticker.add(time => lenis.raf(time * 1000));
+    gsap.ticker.lagSmoothing(0);
+  } catch(e) { console.warn('Lenis init failed:', e); }
+}
+
+/* ══════════════════════════════════════════
+   CUSTOM CURSOR (desktop + fine pointer only)
+   ══════════════════════════════════════════ */
+if (!window.matchMedia('(max-width: 768px)').matches && !window.matchMedia('(pointer: coarse)').matches) {
+  const dot = document.getElementById('cursorDot');
+  const ring = document.getElementById('cursorRing');
+  if (dot && ring) {
+    document.body.classList.add('custom-cursor');
+    let mx = 0, my = 0, rx = 0, ry = 0;
+    document.addEventListener('mousemove', e => { mx = e.clientX; my = e.clientY; });
+    (function cursorLoop() {
+      rx += (mx - rx) * 0.15;
+      ry += (my - ry) * 0.15;
+      dot.style.left = mx + 'px'; dot.style.top = my + 'px';
+      ring.style.left = rx + 'px'; ring.style.top = ry + 'px';
+      requestAnimationFrame(cursorLoop);
+    })();
+    document.querySelectorAll('a, button, .gallery-item, .origin-card, .soc-link').forEach(el => {
+      el.addEventListener('mouseenter', () => document.body.classList.add('cursor-hover'));
+      el.addEventListener('mouseleave', () => document.body.classList.remove('cursor-hover'));
+    });
+  }
+}
+
+/* ══════════════════════════════════════════
+   GOLD PARTICLE CANVAS
+   ══════════════════════════════════════════ */
+(() => {
+  const canvas = document.getElementById('particleCanvas');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  let W, H, mouse = { x: -1000, y: -1000 };
+  function resize() { W = canvas.width = window.innerWidth; H = canvas.height = window.innerHeight; }
+  resize();
+  window.addEventListener('resize', resize);
+  document.addEventListener('mousemove', e => { mouse.x = e.clientX; mouse.y = e.clientY; });
+  class Particle {
+    constructor() { this.reset(); }
+    reset() {
+      this.x = Math.random() * W; this.y = Math.random() * H;
+      this.size = Math.random() * 1.5 + 0.3;
+      this.speedY = -(Math.random() * 0.3 + 0.05);
+      this.speedX = (Math.random() - 0.5) * 0.2;
+      this.opacity = Math.random() * 0.4 + 0.1;
+      this.life = Math.random() * 600 + 200; this.age = 0;
+    }
+    update() {
+      this.age++;
+      if (this.age > this.life) this.reset();
+      const dx = mouse.x - this.x, dy = mouse.y - this.y;
+      const dist = Math.sqrt(dx * dx + dy * dy);
+      if (dist < 150) { this.x -= dx * 0.005; this.y -= dy * 0.005; }
+      this.x += this.speedX; this.y += this.speedY;
+      if (this.y < -10) this.reset();
+    }
+    draw() {
+      ctx.globalAlpha = this.opacity * (1 - this.age / this.life);
+      ctx.fillStyle = '#c9a84c';
+      ctx.beginPath(); ctx.arc(this.x, this.y, this.size, 0, Math.PI * 2); ctx.fill();
+    }
+  }
+  const particles = Array.from({ length: 80 }, () => new Particle());
+  (function draw() {
+    ctx.clearRect(0, 0, W, H);
+    particles.forEach(p => { p.update(); p.draw(); });
+    ctx.globalAlpha = 1;
+    requestAnimationFrame(draw);
+  })();
+})();
+
+/* ══════════════════════════════════════════
+   HERO ANIMATION
+   ══════════════════════════════════════════ */
+function startHeroAnimation() {
+  const title = document.getElementById('heroTitle');
+  const text = title.textContent;
+  title.innerHTML = '';
+  text.split('').forEach(ch => {
+    const span = document.createElement('span');
+    span.className = 'char';
+    span.textContent = ch;
+    title.appendChild(span);
+  });
+  if (hasGSAP) {
+    gsap.timeline({ defaults: { ease: 'expo.out' } })
+      .to('.hero-title .char', { y: 0, opacity: 1, duration: 1.2, stagger: 0.05 }, 0.2)
+      .to('#heroLine', { scaleX: 1, duration: 0.8 }, 0.8)
+      .to('#heroSubtitle', { opacity: 1, duration: 0.8 }, 1)
+      .to('#heroTagline', { opacity: 0.8, duration: 0.8 }, 1.2)
+      .to('#heroOrigin', { opacity: 0.5, duration: 0.8 }, 1.4)
+      .to('#scrollCue', { opacity: 1, duration: 0.6 }, 1.8);
+  } else {
+    document.querySelectorAll('.hero-title .char').forEach(c => { c.style.opacity = '1'; c.style.transform = 'none'; });
+    ['heroLine','heroSubtitle','heroTagline','heroOrigin','scrollCue'].forEach(id => {
+      const el = document.getElementById(id); if (el) { el.style.opacity = '1'; el.style.transform = 'none'; }
+    });
+  }
+  setLang(currentLang);
+}
+
+/* ══════════════════════════════════════════
+   COA MOUSE PARALLAX
+   ══════════════════════════════════════════ */
+if (hasGSAP) {
+  const coaImg = document.getElementById('coaImg');
+  const coaWrap = document.getElementById('coaWrap');
+  document.addEventListener('mousemove', e => {
+    const cx = window.innerWidth / 2, cy = window.innerHeight / 2;
+    const dx = (e.clientX - cx) / cx, dy = (e.clientY - cy) / cy;
+    gsap.to(coaImg, { rotateY: dx * 8, rotateX: -dy * 8, duration: 0.8, ease: 'power2.out' });
+    gsap.to(coaWrap, { x: dx * 15, y: dy * 10, duration: 1, ease: 'power2.out' });
+  });
+}
+
+/* ══════════════════════════════════════════
+   NAVIGATION
    ══════════════════════════════════════════ */
 (() => {
   const nav = document.getElementById('nav');
   const toggle = document.getElementById('navToggle');
   const links = document.getElementById('navLinks');
   const allLinks = links.querySelectorAll('a');
-
-  let ticking = false;
-  window.addEventListener('scroll', () => {
-    if (!ticking) {
-      requestAnimationFrame(() => {
-        nav.classList.toggle('scrolled', window.scrollY > 60);
-        ticking = false;
-      });
-      ticking = true;
-    }
-  });
-
+  window.addEventListener('scroll', () => nav.classList.toggle('scrolled', window.scrollY > 80));
   toggle.addEventListener('click', () => {
     toggle.classList.toggle('open');
     links.classList.toggle('open');
     document.body.style.overflow = links.classList.contains('open') ? 'hidden' : '';
   });
-
-  allLinks.forEach(link => {
-    link.addEventListener('click', () => {
-      toggle.classList.remove('open');
-      links.classList.remove('open');
-      document.body.style.overflow = '';
+  allLinks.forEach(a => a.addEventListener('click', () => {
+    toggle.classList.remove('open'); links.classList.remove('open'); document.body.style.overflow = '';
+  }));
+  if (hasGSAP) {
+    document.querySelectorAll('section[id]').forEach(sec => {
+      ScrollTrigger.create({
+        trigger: sec, start: 'top center', end: 'bottom center',
+        onEnter: () => { allLinks.forEach(l => l.classList.remove('active')); links.querySelector(`a[href="#${sec.id}"]`)?.classList.add('active'); },
+        onEnterBack: () => { allLinks.forEach(l => l.classList.remove('active')); links.querySelector(`a[href="#${sec.id}"]`)?.classList.add('active'); },
+      });
     });
+  }
+})();
+
+/* ══════════════════════════════════════════
+   GSAP SCROLL ANIMATIONS (all guarded)
+   ══════════════════════════════════════════ */
+if (hasGSAP) {
+
+  gsap.registerPlugin(ScrollTrigger);
+
+  /* section reveals */
+  gsap.utils.toArray('.sec-label, .sec-title, .sec-sub').forEach(el => {
+    gsap.from(el, { y: 40, opacity: 0, duration: 1, ease: 'expo.out', scrollTrigger: { trigger: el, start: 'top 85%' } });
+  });
+  gsap.utils.toArray('.about-text h3, .about-text p').forEach((el, i) => {
+    gsap.from(el, { x: -40, opacity: 0, duration: 1, delay: i * 0.1, ease: 'expo.out', scrollTrigger: { trigger: el, start: 'top 85%' } });
+  });
+  gsap.from('.about-crest', { scale: 0.8, opacity: 0, duration: 1.2, ease: 'expo.out', scrollTrigger: { trigger: '.about-visual', start: 'top 75%' } });
+
+  /* origin cards — 3D tilt */
+  document.querySelectorAll('.origin-card').forEach(card => {
+    gsap.from(card, { y: 60, opacity: 0, duration: 1, ease: 'expo.out', scrollTrigger: { trigger: card, start: 'top 85%' } });
+    card.addEventListener('mousemove', e => {
+      const rect = card.getBoundingClientRect();
+      const x = (e.clientX - rect.left) / rect.width, y = (e.clientY - rect.top) / rect.height;
+      card.style.setProperty('--mx', `${x * 100}%`); card.style.setProperty('--my', `${y * 100}%`);
+      gsap.to(card, { rotateY: (x - 0.5) * 10, rotateX: (0.5 - y) * 10, duration: 0.4, ease: 'power2.out' });
+    });
+    card.addEventListener('mouseleave', () => gsap.to(card, { rotateY: 0, rotateX: 0, duration: 0.6, ease: 'power2.out' }));
   });
 
-  const sections = document.querySelectorAll('section[id]');
-  const observerNav = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        allLinks.forEach(l => l.classList.remove('active'));
-        const active = links.querySelector(`a[href="#${entry.target.id}"]`);
-        if (active) active.classList.add('active');
-      }
-    });
-  }, { rootMargin: '-40% 0px -60% 0px' });
-  sections.forEach(s => observerNav.observe(s));
-})();
+  /* horizontal scroll — timeline */
+  (() => {
+    const track = document.getElementById('timelineTrack');
+    const section = document.querySelector('.timeline-section');
+    if (track && section) {
+      gsap.to(track, {
+        x: () => -(track.scrollWidth - window.innerWidth + 100), ease: 'none',
+        scrollTrigger: { trigger: section, start: 'top top', end: () => '+=' + track.scrollWidth, pin: true, scrub: 1, invalidateOnRefresh: true }
+      });
+    }
+  })();
+
+  /* horizontal scroll — gallery */
+  (() => {
+    const track = document.getElementById('galleryTrack');
+    const section = document.querySelector('.gallery-section');
+    if (track && section) {
+      gsap.to(track, {
+        x: () => -(track.scrollWidth - window.innerWidth + 60), ease: 'none',
+        scrollTrigger: { trigger: section, start: 'top top', end: () => '+=' + track.scrollWidth, pin: true, scrub: 1, invalidateOnRefresh: true }
+      });
+    }
+  })();
+
+  /* contact reveals */
+  gsap.utils.toArray('.contact-info h3, .contact-info p, .socials').forEach((el, i) => {
+    gsap.from(el, { x: -30, opacity: 0, duration: 0.8, delay: i * 0.1, ease: 'expo.out', scrollTrigger: { trigger: el, start: 'top 85%' } });
+  });
+  gsap.utils.toArray('.field, .btn-mag').forEach((el, i) => {
+    gsap.from(el, { y: 30, opacity: 0, duration: 0.8, delay: i * 0.08, ease: 'expo.out', scrollTrigger: { trigger: el, start: 'top 90%' } });
+  });
+
+  /* family empty */
+  gsap.from('.family-empty', { y: 20, opacity: 0, duration: 0.8, ease: 'expo.out', scrollTrigger: { trigger: '.family-empty', start: 'top 85%' } });
+
+} /* end hasGSAP */
 
 /* ══════════════════════════════════════════
-   SCROLL REVEAL ANIMATIONS
+   LIGHTBOX (no GSAP dependency)
    ══════════════════════════════════════════ */
 (() => {
-  const reveals = document.querySelectorAll('.reveal, .reveal-left, .reveal-right');
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('visible');
-        observer.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.12, rootMargin: '0px 0px -40px 0px' });
-  reveals.forEach(el => observer.observe(el));
-})();
-
-/* ══════════════════════════════════════════
-   GALLERY LIGHTBOX
-   ══════════════════════════════════════════ */
-(() => {
-  const lightbox = document.getElementById('lightbox');
-  const lightboxImage = document.getElementById('lightboxImage');
+  const lb = document.getElementById('lightbox');
+  const display = document.getElementById('lbDisplay');
   const items = document.querySelectorAll('.gallery-item');
-  let current = 0;
-
+  let cur = 0;
   const captionKeys = ['gal_ov1','gal_ov2','gal_ov3','gal_ov4','gal_ov5','gal_ov6','gal_ov7','gal_ov8'];
-  const colors = ['gp-1','gp-2','gp-3','gp-4','gp-5','gp-6','gp-7','gp-8'];
-
-  function openLightbox(index) {
-    current = index;
-    updateLightbox();
-    lightbox.classList.add('active');
-    document.body.style.overflow = 'hidden';
-  }
-  function closeLightbox() {
-    lightbox.classList.remove('active');
-    document.body.style.overflow = '';
-  }
-  function updateLightbox() {
-    lightboxImage.className = 'lightbox-placeholder ' + colors[current];
-    lightboxImage.textContent = T[currentLang][captionKeys[current]] || captionKeys[current];
-  }
-
-  items.forEach(item => {
-    item.addEventListener('click', () => openLightbox(parseInt(item.dataset.index)));
-  });
-
-  document.getElementById('lightboxClose').addEventListener('click', closeLightbox);
-  document.getElementById('lightboxPrev').addEventListener('click', () => {
-    current = (current - 1 + items.length) % items.length;
-    updateLightbox();
-  });
-  document.getElementById('lightboxNext').addEventListener('click', () => {
-    current = (current + 1) % items.length;
-    updateLightbox();
-  });
-
-  lightbox.addEventListener('click', e => { if (e.target === lightbox) closeLightbox(); });
+  const colors = ['g1','g2','g3','g4','g5','g6','g7','g8'];
+  function open(i) { cur = i; upd(); lb.classList.add('active'); document.body.style.overflow = 'hidden'; }
+  function close() { lb.classList.remove('active'); document.body.style.overflow = ''; }
+  function upd() { display.className = 'lightbox-display ' + colors[cur]; display.textContent = T[currentLang][captionKeys[cur]]; }
+  items.forEach(it => it.addEventListener('click', () => open(+it.dataset.index)));
+  document.getElementById('lbClose').addEventListener('click', close);
+  document.getElementById('lbPrev').addEventListener('click', () => { cur = (cur - 1 + items.length) % items.length; upd(); });
+  document.getElementById('lbNext').addEventListener('click', () => { cur = (cur + 1) % items.length; upd(); });
+  lb.addEventListener('click', e => { if (e.target === lb) close(); });
   document.addEventListener('keydown', e => {
-    if (!lightbox.classList.contains('active')) return;
-    if (e.key === 'Escape') closeLightbox();
-    if (e.key === 'ArrowLeft') { current = (current - 1 + items.length) % items.length; updateLightbox(); }
-    if (e.key === 'ArrowRight') { current = (current + 1) % items.length; updateLightbox(); }
+    if (!lb.classList.contains('active')) return;
+    if (e.key === 'Escape') close();
+    if (e.key === 'ArrowLeft') { cur = (cur - 1 + items.length) % items.length; upd(); }
+    if (e.key === 'ArrowRight') { cur = (cur + 1) % items.length; upd(); }
   });
 })();
 
 /* ══════════════════════════════════════════
-   CONTACT FORM
+   CONTACT FORM (no GSAP dependency)
    ══════════════════════════════════════════ */
-function handleSubmit(e) {
+document.getElementById('contactForm').addEventListener('submit', e => {
   e.preventDefault();
-  const btn = e.target.querySelector('.btn-submit');
-  const sendSpan = btn.querySelector('[data-i18n="form_send"]');
-  sendSpan.textContent = T[currentLang].form_sent;
-  btn.style.background = 'var(--gold)';
-  btn.style.color = 'var(--midnight)';
-  btn.disabled = true;
+  const btn = document.getElementById('btnSubmit');
+  const span = btn.querySelector('[data-i18n="form_send"]');
+  span.textContent = T[currentLang].form_sent;
+  btn.style.pointerEvents = 'none';
   setTimeout(() => {
-    sendSpan.textContent = T[currentLang].form_send;
-    btn.style.background = '';
-    btn.style.color = '';
-    btn.disabled = false;
+    span.textContent = T[currentLang].form_send;
+    btn.style.pointerEvents = '';
     e.target.reset();
   }, 3000);
+});
+
+} catch(err) {
+  console.error('Yaldaram site error:', err);
+  // ensure preloader is removed even on error
+  const pl = document.getElementById('preloader');
+  if (pl) pl.classList.add('done');
 }
 </script>
 </body>
