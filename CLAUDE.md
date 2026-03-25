@@ -36,7 +36,11 @@ Trilingual (EN/DE/TR) static family heritage website for the Yıldırım family,
 │   ├── footer.css
 │   └── responsive.css      ← All @media queries (MUST load last)
 └── js/
-    ├── translations.js     ← window.T — EN/DE/TR translation data
+    ├── lang/
+    │   ├── en.js           ← English translations (window.T_en)
+    │   ├── de.js           ← German translations (window.T_de)
+    │   └── tr.js           ← Turkish translations (window.T_tr)
+    ├── translations.js     ← Combines lang/*.js into window.T
     ├── i18n.js             ← window.setLang, window.currentLang
     ├── main.js             ← window.hasGSAP, window.hasLenis, Lenis init, error handler
     ├── hero.js             ← window.startHeroAnimation + COA parallax
@@ -73,6 +77,10 @@ Trilingual (EN/DE/TR) static family heritage website for the Yıldırım family,
 - **Horizontal scroll** — Timeline and Gallery pinned with GSAP ScrollTrigger
 - **3D tilt cards** — Ardahan/Trabzon origin cards with spotlight effect
 - **Section reveals** — Staggered GSAP scroll-triggered animations
+
+## Rules
+
+- **Never reference files from `raw/` directories** in HTML, CSS, or JS. This applies to `raw/` at any depth. These folders contain source/unprocessed assets only.
 
 ## Sections
 

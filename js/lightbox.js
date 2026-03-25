@@ -8,7 +8,15 @@ try {
     var colors = ['g1','g2','g3','g4','g5','g6','g7','g8'];
     function open(i) { cur = i; upd(); lb.classList.add('active'); document.body.style.overflow = 'hidden'; }
     function close() { lb.classList.remove('active'); document.body.style.overflow = ''; }
-    function upd() { display.className = 'lightbox-display ' + colors[cur]; display.textContent = window.T[window.currentLang][captionKeys[cur]]; }
+    var images = [null,null,null,'assets/4-trabzonharbor.png',null,null,null,null];
+    function upd() {
+      display.className = 'lightbox-display ' + colors[cur];
+      if (images[cur]) {
+        display.innerHTML = '<img src="' + images[cur] + '" alt="' + captionKeys[cur] + '" style="max-width:100%;max-height:100%;object-fit:contain;">';
+      } else {
+        display.textContent = window.T[window.currentLang][captionKeys[cur]];
+      }
+    }
     items.forEach(function(it) { it.addEventListener('click', function() { open(+it.dataset.index); }); });
     document.getElementById('lbClose').addEventListener('click', close);
     document.getElementById('lbPrev').addEventListener('click', function() { cur = (cur - 1 + items.length) % items.length; upd(); });
