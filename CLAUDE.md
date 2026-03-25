@@ -1,7 +1,7 @@
-# Yaldaram Family Heritage Website
+# Yıldırım Family Heritage Website
 
 ## Overview
-Trilingual (EN/DE/TR) static family heritage website for the Yaldaram family, emphasizing Ardahan roots and Trabzon connection.
+Trilingual (EN/DE/TR) static family heritage website for the Yıldırım family, emphasizing Ardahan roots and Trabzon connection.
 
 ## Tech Stack
 - Single `index.html` with embedded CSS & JS — no build tools, no server
@@ -14,10 +14,10 @@ Trilingual (EN/DE/TR) static family heritage website for the Yaldaram family, em
 ## Structure
 - `index.html` — Full website (all sections, styles, scripts, CDN imports)
 - `favicon.svg` — Shield + sun SVG favicon
-- `yaldaram-family.png` — Coat of arms image
+- `yildirim-family.png` — Coat of arms image
 
 ## Key Features
-- **Preloader** — SVG shield path-draw animation + letter-by-letter "YALDARAM" reveal
+- **Preloader** — SVG shield path-draw animation + letter-by-letter "YILDIRIM" reveal
 - **Custom cursor** — Gold dot + ring, hover state expansion (disabled on mobile)
 - **Gold particles** — Canvas-based floating particles that react to mouse movement
 - **Coat of arms parallax** — 3D tilt following mouse position via GSAP
@@ -28,7 +28,7 @@ Trilingual (EN/DE/TR) static family heritage website for the Yaldaram family, em
 ## i18n System
 - JS translation object `T` with keys for `en`, `de`, `tr`
 - `data-i18n` attributes on text elements, `data-i18n-placeholder` on inputs
-- Language stored in `localStorage('yaldaram-lang')`
+- Language stored in `localStorage('yildirim-lang')`
 - To add a translation key: add to all 3 language objects in `T`, then add `data-i18n="key"` to the HTML element
 
 ## Sections
